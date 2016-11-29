@@ -50,3 +50,4 @@ pub trait Vector4<VecType, CompType> : Vector<VecType, CompType> {
 
 pub mod vector2f;
 pub mod vector3f;
+pub mod vector4f;
