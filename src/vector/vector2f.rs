@@ -1,6 +1,8 @@
 #![allow(unused_variables)]
 
 use super::Vector;
+use super::Vector2;
+use super::TwoTuple;
 
 pub struct Vector2f {
     pub x: f32,
@@ -47,6 +49,7 @@ impl Vector<Vector2f, f32> for Vector2f {
     fn vector_fma_into(&self, a: Vector2f, b: &Vector2f, dest: &mut Vector2f) {
         unimplemented!()
     }
+
     fn length(&self) -> f32 {
         unimplemented!()
     }
@@ -54,6 +57,7 @@ impl Vector<Vector2f, f32> for Vector2f {
     fn length_squared(&self) -> f32 {
         unimplemented!()
     }
+
     fn lerp(&mut self, t: f32) -> &mut Self {
         unimplemented!()
     }
@@ -107,6 +111,16 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn zero(&mut self) -> &mut Self {
+        unimplemented!()
+    }
+}
+
+impl Vector2<Vector2f, f32> for Vector2f {
+    fn add_components(&mut self, tuple: TwoTuple<f32>) -> &mut Self {
+        unimplemented!()
+    }
+
+    fn add_components_into(&self, tuple: TwoTuple<f32>, dest: &mut Vector2f) {
         unimplemented!()
     }
 }

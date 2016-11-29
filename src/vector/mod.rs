@@ -1,3 +1,7 @@
+pub type TwoTuple<T> = (T, T);
+pub type ThreeTuple<T> = (T, T, T);
+pub type FourTuple<T> = (T, T, T, T);
+
 pub trait Vector<VectorType, ComponentType> {
     fn add(&mut self, v: &VectorType) -> &mut Self;
     fn add_into(&self, v: &VectorType, dest: &mut VectorType);
@@ -27,9 +31,21 @@ pub trait Vector<VectorType, ComponentType> {
     fn zero(&mut self) -> &mut Self;
 }
 
+pub trait Vector2<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
+    fn add_components(&mut self, tuple: TwoTuple<ComponentType>) -> &mut Self;
+    fn add_components_into(&self, tuple: TwoTuple<ComponentType>, dest: &mut VectorType);
+}
+
 pub trait Vector3<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
+    fn add_components(&mut self, tuple: ThreeTuple<ComponentType>) -> &mut Self;
+    fn add_components_into(&self, tuple: ThreeTuple<ComponentType>, dest: &mut VectorType);
     fn cross(&mut self, v: &VectorType) -> &mut Self;
     fn cross_into(&self, v: &VectorType, dest: &mut VectorType);
+}
+
+pub trait Vector4<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
+    fn add_components(&mut self, tuple: FourTuple<ComponentType>) -> &mut Self;
+    fn add_components_into(&self, tuple: FourTuple<ComponentType>, dest: &mut VectorType);
 }
 
 pub mod vector2f;
