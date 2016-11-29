@@ -2,50 +2,50 @@ pub type TwoTuple<T> = (T, T);
 pub type ThreeTuple<T> = (T, T, T);
 pub type FourTuple<T> = (T, T, T, T);
 
-pub trait Vector<VectorType, ComponentType> {
-    fn add(&mut self, v: &VectorType) -> &mut Self;
-    fn add_into(&self, v: &VectorType, dest: &mut VectorType);
-    fn angle(&self, v: &VectorType) -> ComponentType;
-    fn distance(&self, v: &VectorType) -> ComponentType;
-    fn distance_squared(&self, v: &VectorType) -> ComponentType;
-    fn dot(&self, v: &VectorType) -> ComponentType;
-    fn component_fma(&mut self, a: ComponentType, b: &VectorType) -> &mut Self;
-    fn component_fma_into(&self, a: ComponentType, b: &VectorType, dest: &mut VectorType);
-    fn vector_fma(&mut self, a: VectorType, b: &VectorType) -> &mut Self;
-    fn vector_fma_into(&self, a: VectorType, b: &VectorType, dest: &mut VectorType);
-    fn length(&self) -> ComponentType;
-    fn length_squared(&self) -> ComponentType;
-    fn lerp(&mut self, t: ComponentType) -> &mut Self;
-    fn lerp_into(&self, t: ComponentType, dest: &mut VectorType);
-    fn scalar_mul(&mut self, s: ComponentType) -> &mut Self;
-    fn scalar_mul_into(&self, s: ComponentType, dest: &mut VectorType);
-    fn vector_mul(&mut self, v: &VectorType) -> &mut Self;
-    fn vector_mul_into(&self, v: &VectorType, dest: &mut VectorType);
+pub trait Vector<VecType, CompType> {
+    fn add(&mut self, v: &VecType) -> &mut Self;
+    fn add_into(&self, v: &VecType, dest: &mut VecType);
+    fn angle(&self, v: &VecType) -> CompType;
+    fn distance(&self, v: &VecType) -> CompType;
+    fn distance_squared(&self, v: &VecType) -> CompType;
+    fn dot(&self, v: &VecType) -> CompType;
+    fn component_fma(&mut self, a: CompType, b: &VecType) -> &mut Self;
+    fn component_fma_into(&self, a: CompType, b: &VecType, dest: &mut VecType);
+    fn vector_fma(&mut self, a: VecType, b: &VecType) -> &mut Self;
+    fn vector_fma_into(&self, a: VecType, b: &VecType, dest: &mut VecType);
+    fn length(&self) -> CompType;
+    fn length_squared(&self) -> CompType;
+    fn lerp(&mut self, t: CompType) -> &mut Self;
+    fn lerp_into(&self, t: CompType, dest: &mut VecType);
+    fn scalar_mul(&mut self, s: CompType) -> &mut Self;
+    fn scalar_mul_into(&self, s: CompType, dest: &mut VecType);
+    fn vector_mul(&mut self, v: &VecType) -> &mut Self;
+    fn vector_mul_into(&self, v: &VecType, dest: &mut VecType);
     fn negate(&mut self) -> &mut Self;
-    fn negate_into(&self, dest: &mut VectorType);
+    fn negate_into(&self, dest: &mut VecType);
     fn normalize(&mut self) -> &mut Self;
-    fn normalize_into(&self, dest: &mut VectorType);
-    fn set(&mut self, v: &VectorType) -> &mut Self;
-    fn sub(&mut self, v: &VectorType) -> &mut Self;
-    fn sub_into(&self, v: &VectorType, dest: &mut VectorType);
+    fn normalize_into(&self, dest: &mut VecType);
+    fn set(&mut self, v: &VecType) -> &mut Self;
+    fn sub(&mut self, v: &VecType) -> &mut Self;
+    fn sub_into(&self, v: &VecType, dest: &mut VecType);
     fn zero(&mut self) -> &mut Self;
 }
 
-pub trait Vector2<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
-    fn add_components(&mut self, tuple: TwoTuple<ComponentType>) -> &mut Self;
-    fn add_components_into(&self, tuple: TwoTuple<ComponentType>, dest: &mut VectorType);
+pub trait Vector2<VecType, CompType> : Vector<VecType, CompType> {
+    fn add_components(&mut self, tuple: TwoTuple<CompType>) -> &mut Self;
+    fn add_components_into(&self, tuple: TwoTuple<CompType>, dest: &mut VecType);
 }
 
-pub trait Vector3<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
-    fn add_components(&mut self, tuple: ThreeTuple<ComponentType>) -> &mut Self;
-    fn add_components_into(&self, tuple: ThreeTuple<ComponentType>, dest: &mut VectorType);
-    fn cross(&mut self, v: &VectorType) -> &mut Self;
-    fn cross_into(&self, v: &VectorType, dest: &mut VectorType);
+pub trait Vector3<VecType, CompType> : Vector<VecType, CompType> {
+    fn add_components(&mut self, tuple: ThreeTuple<CompType>) -> &mut Self;
+    fn add_components_into(&self, tuple: ThreeTuple<CompType>, dest: &mut VecType);
+    fn cross(&mut self, v: &VecType) -> &mut Self;
+    fn cross_into(&self, v: &VecType, dest: &mut VecType);
 }
 
-pub trait Vector4<VectorType, ComponentType> : Vector<VectorType, ComponentType> {
-    fn add_components(&mut self, tuple: FourTuple<ComponentType>) -> &mut Self;
-    fn add_components_into(&self, tuple: FourTuple<ComponentType>, dest: &mut VectorType);
+pub trait Vector4<VecType, CompType> : Vector<VecType, CompType> {
+    fn add_components(&mut self, tuple: FourTuple<CompType>) -> &mut Self;
+    fn add_components_into(&self, tuple: FourTuple<CompType>, dest: &mut VecType);
 }
 
 pub mod vector2f;
