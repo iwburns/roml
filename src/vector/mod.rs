@@ -49,3 +49,4 @@ pub trait Vector4<VectorType, ComponentType> : Vector<VectorType, ComponentType>
 }
 
 pub mod vector2f;
+pub mod vector3f;

@@ -1,5 +1,3 @@
-#![allow(unused_variables)]
-
 use super::Vector;
 use super::Vector2;
 use super::TwoTuple;
