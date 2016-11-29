@@ -1,6 +1,5 @@
 use super::Vector;
 use super::Vector3;
-use super::ThreeTuple;
 
 pub struct Vector3f {
     pub x: f32,
@@ -115,11 +114,11 @@ impl Vector<Vector3f, f32> for Vector3f {
 }
 
 impl Vector3<Vector3f, f32> for Vector3f {
-    fn add_components(&mut self, tuple: ThreeTuple<f32>) -> &mut Self {
+    fn add_components(&mut self, x: f32, y: f32, z: f32) -> &mut Self {
         unimplemented!()
     }
 
-    fn add_components_into(&self, tuple: ThreeTuple<f32>, dest: &mut Vector3f) {
+    fn add_components_into(&self, x: f32, y: f32, z: f32, dest: &mut Vector3f) {
         unimplemented!()
     }
 

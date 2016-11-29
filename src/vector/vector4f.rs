@@ -1,6 +1,5 @@
 use super::Vector;
 use super::Vector4;
-use super::FourTuple;
 
 pub struct Vector4f {
     pub x: f32,
@@ -116,11 +115,11 @@ impl Vector<Vector4f, f32> for Vector4f {
 }
 
 impl Vector4<Vector4f, f32> for Vector4f {
-    fn add_components(&mut self, tuple: FourTuple<f32>) -> &mut Self {
+    fn add_components(&mut self, x: f32, y: f32, z: f32, w: f32) -> &mut Self {
         unimplemented!()
     }
 
-    fn add_components_into(&self, tuple: FourTuple<f32>, dest: &mut Vector4f) {
+    fn add_components_into(&self, x: f32, y: f32, z: f32, w: f32, dest: &mut Vector4f) {
         unimplemented!()
     }
 }

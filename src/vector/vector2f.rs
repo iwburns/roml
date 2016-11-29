@@ -1,6 +1,5 @@
 use super::Vector;
 use super::Vector2;
-use super::TwoTuple;
 
 pub struct Vector2f {
     pub x: f32,
@@ -114,11 +113,11 @@ impl Vector<Vector2f, f32> for Vector2f {
 }
 
 impl Vector2<Vector2f, f32> for Vector2f {
-    fn add_components(&mut self, tuple: TwoTuple<f32>) -> &mut Self {
+    fn add_components(&mut self, x: f32, y: f32) -> &mut Self {
         unimplemented!()
     }
 
-    fn add_components_into(&self, tuple: TwoTuple<f32>, dest: &mut Vector2f) {
+    fn add_components_into(&self, x: f32, y: f32, dest: &mut Vector2f) {
         unimplemented!()
     }
 }
