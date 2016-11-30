@@ -33,19 +33,19 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn component_fma(&mut self, a: f32, b: &Vector4f) -> &mut Self {
+    fn fma_scalar(&mut self, a: f32, b: &Vector4f) -> &mut Self {
         unimplemented!()
     }
 
-    fn component_fma_into(&self, a: f32, b: &Vector4f, dest: &mut Vector4f) {
+    fn fma_scalar_into(&self, a: f32, b: &Vector4f, dest: &mut Vector4f) {
         unimplemented!()
     }
 
-    fn vector_fma(&mut self, a: Vector4f, b: &Vector4f) -> &mut Self {
+    fn fma_vector(&mut self, a: &Vector4f, b: &Vector4f) -> &mut Self {
         unimplemented!()
     }
 
-    fn vector_fma_into(&self, a: Vector4f, b: &Vector4f, dest: &mut Vector4f) {
+    fn fma_vector_into(&self, a: &Vector4f, b: &Vector4f, dest: &mut Vector4f) {
         unimplemented!()
     }
 
@@ -57,27 +57,27 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn lerp(&mut self, t: f32) -> &mut Self {
+    fn lerp(&mut self, other: &Vector4f, t: f32) -> &mut Self {
         unimplemented!()
     }
 
-    fn lerp_into(&self, t: f32, dest: &mut Vector4f) {
+    fn lerp_into(&self, other: &Vector4f, t: f32, dest: &mut Vector4f) {
         unimplemented!()
     }
 
-    fn scalar_mul(&mut self, s: f32) -> &mut Self {
+    fn mul_scalar(&mut self, s: f32) -> &mut Self {
         unimplemented!()
     }
 
-    fn scalar_mul_into(&self, s: f32, dest: &mut Vector4f) {
+    fn mul_scalar_into(&self, s: f32, dest: &mut Vector4f) {
         unimplemented!()
     }
 
-    fn vector_mul(&mut self, v: &Vector4f) -> &mut Self {
+    fn mul_vector(&mut self, v: &Vector4f) -> &mut Self {
         unimplemented!()
     }
 
-    fn vector_mul_into(&self, v: &Vector4f, dest: &mut Vector4f) {
+    fn mul_vector_into(&self, v: &Vector4f, dest: &mut Vector4f) {
         unimplemented!()
     }
 
