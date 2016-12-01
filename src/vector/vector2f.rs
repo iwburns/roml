@@ -15,7 +15,9 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn add(&mut self, v: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x += v.x;
+        self.y += v.y;
+        self
     }
 
     fn add_into(&self, v: &Vector2f, dest: &mut Vector2f) {
@@ -130,5 +132,35 @@ impl Vector2<Vector2f, f32> for Vector2f {
 
     fn add_components_into(&self, x: f32, y: f32, dest: &mut Vector2f) {
         unimplemented!()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::Vector;
+    use super::Vector2f;
+
+    #[test]
+    fn test_new() {
+        let a = Vector2f::new();
+
+        assert_eq!(a.x, 0f32);
+        assert_eq!(a.y, 0f32);
+    }
+
+    #[test]
+    fn test_add() {
+        let mut a = Vector2f::new();
+        let mut b = Vector2f::new();
+        b.x = 1f32;
+        b.y = 2f32;
+
+        a.add(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+
+        assert_eq!(b.x, 1f32);
+        assert_eq!(b.y, 2f32);
     }
 }
