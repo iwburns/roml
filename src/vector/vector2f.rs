@@ -7,6 +7,13 @@ pub struct Vector2f {
 }
 
 impl Vector<Vector2f, f32> for Vector2f {
+    fn new() -> Self {
+        Vector2f {
+            x: 0f32,
+            y: 0f32,
+        }
+    }
+
     fn add(&mut self, v: &Vector2f) -> &mut Self {
         unimplemented!()
     }

@@ -1,4 +1,7 @@
+//todo: possibly get rid of VecType here and just use Self
+
 pub trait Vector<VecType, CompType> {
+    fn new() -> Self;
     fn add(&mut self, v: &VecType) -> &mut Self;
     fn add_into(&self, v: &VecType, dest: &mut VecType);
     fn angle(&self, v: &VecType) -> CompType;

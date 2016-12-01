@@ -8,6 +8,10 @@ pub struct Vector3f {
 }
 
 impl Vector<Vector3f, f32> for Vector3f {
+    fn new() -> Vector3f {
+        unimplemented!()
+    }
+
     fn add(&mut self, v: &Vector3f) -> &mut Self {
         unimplemented!()
     }
