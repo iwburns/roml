@@ -2,6 +2,7 @@ pub trait Vector<VecType, CompType> {
     fn add(&mut self, v: &VecType) -> &mut Self;
     fn add_into(&self, v: &VecType, dest: &mut VecType);
     fn angle(&self, v: &VecType) -> CompType;
+    fn angle_cos(&self, v: &VecType) -> CompType;
     fn distance(&self, v: &VecType) -> CompType;
     fn distance_squared(&self, v: &VecType) -> CompType;
     fn dot(&self, v: &VecType) -> CompType;

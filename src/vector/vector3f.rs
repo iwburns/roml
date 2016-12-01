@@ -20,6 +20,10 @@ impl Vector<Vector3f, f32> for Vector3f {
         unimplemented!()
     }
 
+    fn angle_cos(&self, v: &Vector3f) -> f32 {
+        unimplemented!()
+    }
+
     fn distance(&self, v: &Vector3f) -> f32 {
         unimplemented!()
     }
