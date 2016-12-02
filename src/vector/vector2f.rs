@@ -36,11 +36,13 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn distance(&self, v: &Vector2f) -> f32 {
-        unimplemented!()
+        self.distance_squared(v).sqrt()
     }
 
     fn distance_squared(&self, v: &Vector2f) -> f32 {
-        unimplemented!()
+        let dx = self.x - v.x;
+        let dy = self.y - v.y;
+        (dx * dx) + (dy * dy)
     }
 
     fn dot(&self, v: &Vector2f) -> f32 {
@@ -168,9 +170,6 @@ mod tests {
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
-
-        assert_eq!(b.x, 1f32);
-        assert_eq!(b.y, 2f32);
     }
 
     #[test]
@@ -181,13 +180,29 @@ mod tests {
 
         a.add_into(&b, &mut c);
 
-        assert_eq!(a.x, 1f32);
-        assert_eq!(a.y, 1f32);
-
-        assert_eq!(b.x, 1f32);
-        assert_eq!(b.y, 2f32);
-
         assert_eq!(c.x, 2f32);
         assert_eq!(c.y, 3f32);
+    }
+
+    #[test]
+    fn test_distance() {
+        let a = Vector2f::new(2f32, 1f32);
+        let b = Vector2f::new(0f32, 1f32);
+
+        let target_distance = 2f32;
+        let distance = a.distance(&b);
+
+        assert_eq!(target_distance, distance);
+    }
+
+    #[test]
+    fn test_distance_squared() {
+        let a = Vector2f::new(2f32, 1f32);
+        let b = Vector2f::new(0f32, 1f32);
+
+        let target_distance_sq = 4f32; //distance is 2
+        let distance_sq = a.distance_squared(&b);
+
+        assert_eq!(target_distance_sq, distance_sq);
     }
 }
