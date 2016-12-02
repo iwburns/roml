@@ -66,11 +66,11 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn length(&self) -> f32 {
-        unimplemented!()
+        self.length_squared().sqrt()
     }
 
     fn length_squared(&self) -> f32 {
-        unimplemented!()
+        (self.x * self.x) + (self.y * self.y)
     }
 
     fn lerp(&mut self, other: &Vector2f, t: f32) -> &mut Self {
@@ -204,5 +204,25 @@ mod tests {
         let distance_sq = a.distance_squared(&b);
 
         assert_eq!(target_distance_sq, distance_sq);
+    }
+
+    #[test]
+    fn test_length() {
+        let a = Vector2f::new(3f32, 4f32);
+
+        let target_length = 5f32; //length should be 5 because of the 3:4:5 triangle
+        let length = a.length();
+
+        assert_eq!(target_length, length);
+    }
+
+    #[test]
+    fn test_length_squared() {
+        let a = Vector2f::new(3f32, 4f32);
+
+        let target_length_sq = 25f32; //length should be 5 because of the 3:4:5 triangle
+        let length_sq = a.length_squared();
+
+        assert_eq!(target_length_sq, length_sq);
     }
 }
