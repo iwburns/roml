@@ -1,7 +1,6 @@
 //todo: possibly get rid of VecType here and just use Self
 
 pub trait Vector<VecType, CompType> {
-    fn new() -> Self;
     fn add(&mut self, v: &VecType) -> &mut Self;
     fn add_into(&self, v: &VecType, dest: &mut VecType);
     fn angle(&self, v: &VecType) -> CompType;
@@ -32,6 +31,7 @@ pub trait Vector<VecType, CompType> {
 }
 
 pub trait Vector2<VecType, CompType> : Vector<VecType, CompType> {
+    fn new(x: CompType, y: CompType) -> Self;
     fn add_components(&mut self, x: CompType, y: CompType) -> &mut Self;
     fn add_components_into(&self, x: CompType, y: CompType, dest: &mut VecType);
 }

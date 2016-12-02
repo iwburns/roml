@@ -9,10 +9,6 @@ pub struct Vector4f {
 }
 
 impl Vector<Vector4f, f32> for Vector4f {
-    fn new() -> Vector4f {
-        unimplemented!()
-    }
-
     fn add(&mut self, v: &Vector4f) -> &mut Self {
         unimplemented!()
     }

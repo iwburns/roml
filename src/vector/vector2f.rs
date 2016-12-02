@@ -6,14 +6,16 @@ pub struct Vector2f {
     pub y: f32,
 }
 
-impl Vector<Vector2f, f32> for Vector2f {
-    fn new() -> Self {
+impl Default for Vector2f {
+    fn default() -> Vector2f {
         Vector2f {
             x: 0f32,
             y: 0f32,
         }
     }
+}
 
+impl Vector<Vector2f, f32> for Vector2f {
     fn add(&mut self, v: &Vector2f) -> &mut Self {
         self.x += v.x;
         self.y += v.y;
@@ -126,6 +128,13 @@ impl Vector<Vector2f, f32> for Vector2f {
 }
 
 impl Vector2<Vector2f, f32> for Vector2f {
+    fn new(x: f32, y: f32) -> Self {
+        Vector2f {
+            x: x,
+            y: y,
+        }
+    }
+
     fn add_components(&mut self, x: f32, y: f32) -> &mut Self {
         unimplemented!()
     }
@@ -138,22 +147,21 @@ impl Vector2<Vector2f, f32> for Vector2f {
 #[cfg(test)]
 mod tests {
     use super::super::Vector;
+    use super::super::Vector2;
     use super::Vector2f;
 
     #[test]
     fn test_new() {
-        let a = Vector2f::new();
+        let a = Vector2f::new(1f32, 2f32);
 
-        assert_eq!(a.x, 0f32);
-        assert_eq!(a.y, 0f32);
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
     }
 
     #[test]
     fn test_add() {
-        let mut a = Vector2f::new();
-        let mut b = Vector2f::new();
-        b.x = 1f32;
-        b.y = 2f32;
+        let mut a = Vector2f::default();
+        let b = Vector2f::new(1f32, 2f32);
 
         a.add(&b);
 
