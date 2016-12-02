@@ -23,7 +23,8 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn add_into(&self, v: &Vector2f, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x + v.x;
+        dest.y = self.y + v.y;
     }
 
     fn angle(&self, v: &Vector2f) -> f32 {
@@ -170,5 +171,23 @@ mod tests {
 
         assert_eq!(b.x, 1f32);
         assert_eq!(b.y, 2f32);
+    }
+
+    #[test]
+    fn test_add_into() {
+        let a = Vector2f::new(1f32, 1f32);
+        let b = Vector2f::new(1f32, 2f32);
+        let mut c = Vector2f::default();
+
+        a.add_into(&b, &mut c);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 1f32);
+
+        assert_eq!(b.x, 1f32);
+        assert_eq!(b.y, 2f32);
+
+        assert_eq!(c.x, 2f32);
+        assert_eq!(c.y, 3f32);
     }
 }
