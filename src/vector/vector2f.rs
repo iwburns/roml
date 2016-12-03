@@ -85,11 +85,14 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn lerp(&mut self, other: &Vector2f, t: f32) -> &mut Self {
-        unimplemented!()
+        self.x += (other.x - self.x) * t;
+        self.y += (other.y - self.y) * t;
+        self
     }
 
     fn lerp_into(&self, other: &Vector2f, t: f32, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x + (other.x - self.x) * t;
+        dest.y = self.y + (other.y - self.y) * t;
     }
 
     fn mul_scalar(&mut self, s: f32) -> &mut Self {
@@ -341,6 +344,29 @@ mod tests {
         let length_sq = a.length_squared();
 
         assert_eq!(target_length_sq, length_sq);
+    }
+
+    #[test]
+    fn test_lerp() {
+        let mut a = Vector2f::new(1f32, 0f32);
+        let b = Vector2f::new(2f32, 2f32);
+
+        a.lerp(&b, 0.5f32);
+
+        assert_eq!(a.x, 1.5f32);
+        assert_eq!(a.y, 1.0f32);
+    }
+
+    #[test]
+    fn test_lerp_into() {
+        let a = Vector2f::new(1f32, 0f32);
+        let b = Vector2f::new(2f32, 2f32);
+        let mut c = Vector2f::new(0f32, 0f32);
+
+        a.lerp_into(&b, 0.5f32, &mut c);
+
+        assert_eq!(c.x, 1.5f32);
+        assert_eq!(c.y, 1.0f32);
     }
 
     #[test]
