@@ -93,11 +93,14 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn mul_vector(&mut self, v: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x *= v.x;
+        self.y *= v.y;
+        self
     }
 
     fn mul_vector_into(&self, v: &Vector2f, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x * v.x;
+        dest.y = self.y * v.y;
     }
 
     fn negate(&mut self) -> &mut Self {
@@ -261,5 +264,28 @@ mod tests {
 
         assert_eq!(c.x, 2f32);
         assert_eq!(c.y, 4f32);
+    }
+
+    #[test]
+    fn test_mul_vector() {
+        let mut a = Vector2f::new(1f32, 2f32);
+        let b = Vector2f::new(2f32, 3f32);
+
+        a.mul_vector(&b);
+
+        assert_eq!(a.x, 2f32);
+        assert_eq!(a.y, 6f32);
+    }
+
+    #[test]
+    fn test_mul_vector_into() {
+        let a = Vector2f::new(1f32, 2f32);
+        let b = Vector2f::new(2f32, 3f32);
+        let mut c = Vector2::new(0f32, 0f32);
+
+        a.mul_vector_into(&b, &mut c);
+
+        assert_eq!(c.x, 2f32);
+        assert_eq!(c.y, 6f32);
     }
 }
