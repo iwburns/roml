@@ -134,15 +134,20 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn sub(&mut self, v: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x -= v.x;
+        self.y -= v.y;
+        self
     }
 
     fn sub_into(&self, v: &Vector2f, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x - v.x;
+        dest.y = self.y - v.y;
     }
 
     fn zero(&mut self) -> &mut Self {
-        unimplemented!()
+        self.x = 0f32;
+        self.y = 0f32;
+        self
     }
 }
 
@@ -350,5 +355,38 @@ mod tests {
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
+    }
+
+    #[test]
+    fn test_sub() {
+        let mut a = Vector2f::new(2f32, 5f32);
+        let b = Vector2f::new(1f32, 2f32);
+
+        a.sub(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 3f32);
+    }
+
+    #[test]
+    fn test_sub_into() {
+        let a = Vector2f::new(2f32, 5f32);
+        let b = Vector2f::new(1f32, 2f32);
+        let mut c = Vector2f::new(0f32, 0f32);
+
+        a.sub_into(&b, &mut c);
+
+        assert_eq!(c.x, 1f32);
+        assert_eq!(c.y, 3f32);
+    }
+
+    #[test]
+    fn test_zero() {
+        let mut a = Vector2f::new(1f32, 2f32);
+
+        a.zero();
+
+        assert_eq!(a.x, 0f32);
+        assert_eq!(a.y, 0f32);
     }
 }
