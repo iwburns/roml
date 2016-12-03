@@ -128,7 +128,9 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn set(&mut self, v: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x = v.x;
+        self.y = v.y;
+        self
     }
 
     fn sub(&mut self, v: &Vector2f) -> &mut Self {
@@ -337,5 +339,16 @@ mod tests {
         a.normalize_into(&mut b);
 
         assert!((1f32 - b.length()).abs() < std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_set() {
+        let mut a = Vector2f::new(0f32, 0f32);
+        let b = Vector2f::new(1f32, 2f32);
+
+        a.set(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
     }
 }
