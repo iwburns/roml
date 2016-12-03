@@ -46,7 +46,7 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn dot(&self, v: &Vector2f) -> f32 {
-        unimplemented!()
+        (self.x * v.x) + (self.y * v.y)
     }
 
     fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Self {
@@ -82,11 +82,14 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn mul_scalar(&mut self, s: f32) -> &mut Self {
-        unimplemented!()
+        self.x *= s;
+        self.y *= s;
+        self
     }
 
     fn mul_scalar_into(&self, s: f32, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x * s;
+        dest.y = self.y * s;
     }
 
     fn mul_vector(&mut self, v: &Vector2f) -> &mut Self {
@@ -207,6 +210,17 @@ mod tests {
     }
 
     #[test]
+    fn test_dot() {
+        let a = Vector2f::new(2f32, 1f32);
+        let b = Vector2f::new(1f32, 1f32);
+
+        let target_dot = 3f32;
+        let dot = a.dot(&b);
+
+        assert_eq!(target_dot, dot);
+    }
+
+    #[test]
     fn test_length() {
         let a = Vector2f::new(3f32, 4f32);
 
@@ -224,5 +238,28 @@ mod tests {
         let length_sq = a.length_squared();
 
         assert_eq!(target_length_sq, length_sq);
+    }
+
+    #[test]
+    fn test_mul_scalar() {
+        let mut a = Vector2f::new(1f32, 2f32);
+        let b = 2f32;
+
+        a.mul_scalar(b);
+
+        assert_eq!(a.x, 2f32);
+        assert_eq!(a.y, 4f32);
+    }
+
+    #[test]
+    fn test_mul_scalar_into() {
+        let a = Vector2f::new(1f32, 2f32);
+        let b = 2f32;
+        let mut c = Vector2::new(0f32, 0f32);
+
+        a.mul_scalar_into(b, &mut c);
+
+        assert_eq!(c.x, 2f32);
+        assert_eq!(c.y, 4f32);
     }
 }
