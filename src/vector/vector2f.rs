@@ -115,11 +115,16 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn normalize(&mut self) -> &mut Self {
-        unimplemented!()
+        let inv_length = 1f32 / self.length();
+        self.x *= inv_length;
+        self.y *= inv_length;
+        self
     }
 
     fn normalize_into(&self, dest: &mut Vector2f) {
-        unimplemented!()
+        let inv_length = 1f32 / self.length();
+        dest.x = self.x * inv_length;
+        dest.y = self.y * inv_length;
     }
 
     fn set(&mut self, v: &Vector2f) -> &mut Self {
@@ -161,6 +166,8 @@ mod tests {
     use super::super::Vector;
     use super::super::Vector2;
     use super::Vector2f;
+
+    use std;
 
     #[test]
     fn test_new() {
@@ -311,5 +318,24 @@ mod tests {
 
         assert_eq!(b.x, -1f32);
         assert_eq!(b.y, -2f32);
+    }
+
+    #[test]
+    fn test_normalize() {
+        let mut a = Vector2f::new(1f32, 2f32);
+
+        a.normalize();
+
+        assert!((1f32 - a.length()).abs() < std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_normalize_into() {
+        let a = Vector2f::new(1f32, 2f32);
+        let mut b = Vector2f::new(0f32, 0f32);
+
+        a.normalize_into(&mut b);
+
+        assert!((1f32 - b.length()).abs() < std::f32::EPSILON);
     }
 }
