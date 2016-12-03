@@ -28,11 +28,16 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn angle(&self, v: &Vector2f) -> f32 {
-        unimplemented!()
+        let dot = self.dot(v);
+        let det = (self.x * v.y) - (self.y * v.x);
+        det.atan2(dot)
     }
 
     fn angle_cos(&self, v: &Vector2f) -> f32 {
-        unimplemented!()
+        let self_len_squared = self.length_squared();
+        let v_len_squared = v.length_squared();
+        let dot = self.dot(v);
+        dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
     fn distance(&self, v: &Vector2f) -> f32 {
@@ -214,6 +219,28 @@ mod tests {
     }
 
     #[test]
+    fn test_angle() {
+        let a = Vector2f::new(1f32, 0f32);
+        let b = Vector2f::new(0f32, 1f32);
+
+        let target_angle = 90f32.to_radians();
+        let angle = a.angle(&b);
+
+        assert!((target_angle - angle).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_angle_cos() {
+        let a = Vector2f::new(1f32, 0f32);
+        let b = Vector2f::new(0f32, 1f32);
+
+        let target_angle_cos = 90f32.to_radians().cos();
+        let angle_cos = a.angle_cos(&b);
+
+        assert!((target_angle_cos - angle_cos).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
     fn test_distance() {
         let a = Vector2f::new(2f32, 1f32);
         let b = Vector2f::new(0f32, 1f32);
@@ -389,7 +416,7 @@ mod tests {
 
         a.normalize();
 
-        assert!((1f32 - a.length()).abs() < std::f32::EPSILON);
+        assert!((1f32 - a.length()).abs() <= std::f32::EPSILON);
     }
 
     #[test]
@@ -399,7 +426,7 @@ mod tests {
 
         a.normalize_into(&mut b);
 
-        assert!((1f32 - b.length()).abs() < std::f32::EPSILON);
+        assert!((1f32 - b.length()).abs() <= std::f32::EPSILON);
     }
 
     #[test]
