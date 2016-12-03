@@ -104,11 +104,14 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn negate(&mut self) -> &mut Self {
-        unimplemented!()
+        self.x = -self.x;
+        self.y = -self.y;
+        self
     }
 
     fn negate_into(&self, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = -self.x;
+        dest.y = -self.y;
     }
 
     fn normalize(&mut self) -> &mut Self {
@@ -287,5 +290,26 @@ mod tests {
 
         assert_eq!(c.x, 2f32);
         assert_eq!(c.y, 6f32);
+    }
+
+    #[test]
+    fn test_negate() {
+        let mut a = Vector2f::new(1f32, 2f32);
+
+        a.negate();
+
+        assert_eq!(a.x, -1f32);
+        assert_eq!(a.y, -2f32);
+    }
+
+    #[test]
+    fn test_negate_into() {
+        let a = Vector2f::new(1f32, 2f32);
+        let mut b = Vector2f::new(0f32, 0f32);
+
+        a.negate_into(&mut b);
+
+        assert_eq!(b.x, -1f32);
+        assert_eq!(b.y, -2f32);
     }
 }
