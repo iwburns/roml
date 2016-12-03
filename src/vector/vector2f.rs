@@ -174,11 +174,14 @@ impl Vector2<Vector2f, f32> for Vector2f {
     }
 
     fn add_components(&mut self, x: f32, y: f32) -> &mut Self {
-        unimplemented!()
+        self.x += x;
+        self.y += y;
+        self
     }
 
     fn add_components_into(&self, x: f32, y: f32, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x + x;
+        dest.y = self.y + y;
     }
 }
 
@@ -497,5 +500,26 @@ mod tests {
 
         assert_eq!(a.x, 0f32);
         assert_eq!(a.y, 0f32);
+    }
+
+    #[test]
+    fn test_add_components() {
+        let mut a = Vector2f::new(1f32, 2f32);
+
+        a.add_components(2f32, 3f32);
+
+        assert_eq!(a.x, 3f32);
+        assert_eq!(a.y, 5f32);
+    }
+
+    #[test]
+    fn test_add_components_into() {
+        let a = Vector2f::new(1f32, 2f32);
+        let mut b = Vector2f::new(0f32, 0f32);
+
+        a.add_components_into(2f32, 3f32, &mut b);
+
+        assert_eq!(b.x, 3f32);
+        assert_eq!(b.y, 5f32);
     }
 }
