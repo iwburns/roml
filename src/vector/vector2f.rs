@@ -50,25 +50,25 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Self {
-        self.x += a * b.x;
-        self.y += a * b.y;
+        self.x = a.mul_add(b.x, self.x);
+        self.y = a.mul_add(b.y, self.y);
         self
     }
 
     fn fma_scalar_into(&self, a: f32, b: &Vector2f, dest: &mut Vector2f) {
-        dest.x = self.x + (a * b.x);
-        dest.y = self.y + (a * b.y);
+        dest.x = a.mul_add(b.x, self.x);
+        dest.y = a.mul_add(b.y, self.y);
     }
 
     fn fma_vector(&mut self, a: &Vector2f, b: &Vector2f) -> &mut Self {
-        self.x += a.x * b.x;
-        self.y += a.y * b.y;
+        self.x = a.x.mul_add(b.x, self.x);
+        self.y = a.y.mul_add(b.y, self.y);
         self
     }
 
     fn fma_vector_into(&self, a: &Vector2f, b: &Vector2f, dest: &mut Vector2f) {
-        dest.x = self.x + (a.x * b.x);
-        dest.y = self.y + (a.y * b.y);
+        dest.x = a.x.mul_add(b.x, self.x);
+        dest.y = a.y.mul_add(b.y, self.y);
     }
 
     fn length(&self) -> f32 {
