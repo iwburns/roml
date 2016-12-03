@@ -50,19 +50,25 @@ impl Vector<Vector2f, f32> for Vector2f {
     }
 
     fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x += a * b.x;
+        self.y += a * b.y;
+        self
     }
 
     fn fma_scalar_into(&self, a: f32, b: &Vector2f, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x + (a * b.x);
+        dest.y = self.y + (a * b.y);
     }
 
     fn fma_vector(&mut self, a: &Vector2f, b: &Vector2f) -> &mut Self {
-        unimplemented!()
+        self.x += a.x * b.x;
+        self.y += a.y * b.y;
+        self
     }
 
     fn fma_vector_into(&self, a: &Vector2f, b: &Vector2f, dest: &mut Vector2f) {
-        unimplemented!()
+        dest.x = self.x + (a.x * b.x);
+        dest.y = self.y + (a.y * b.y);
     }
 
     fn length(&self) -> f32 {
@@ -238,6 +244,56 @@ mod tests {
         let dot = a.dot(&b);
 
         assert_eq!(target_dot, dot);
+    }
+
+    #[test]
+    fn test_fma_scalar() {
+        let mut a = Vector2f::new(1f32, 1f32);
+        let b = 2f32;
+        let c = Vector2f::new(2f32, 3f32);
+
+        a.fma_scalar(b, &c);
+
+        assert_eq!(a.x, 5f32);
+        assert_eq!(a.y, 7f32);
+    }
+
+    #[test]
+    fn test_fma_scalar_into() {
+        let a = Vector2f::new(1f32, 1f32);
+        let b = 2f32;
+        let c = Vector2f::new(2f32, 3f32);
+        let mut d = Vector2f::new(0f32, 0f32);
+
+        a.fma_scalar_into(b, &c, &mut d);
+
+        assert_eq!(d.x, 5f32);
+        assert_eq!(d.y, 7f32);
+    }
+
+    #[test]
+    fn test_fma_vector() {
+        let mut a = Vector2f::new(1f32, 1f32);
+        let b = Vector2f::new(2f32, 3f32);
+        let c = Vector2f::new(2f32, 3f32);
+
+        a.fma_vector(&b, &c);
+
+        assert_eq!(a.x, 5f32);
+        assert_eq!(a.y, 10f32);
+    }
+
+    #[test]
+    fn test_fma_vector_into() {
+        let a = Vector2f::new(1f32, 1f32);
+        let b = Vector2f::new(2f32, 3f32);
+        let c = Vector2f::new(2f32, 3f32);
+        let mut d = Vector2f::new(0f32, 0f32);
+
+        a.fma_vector_into(&b, &c, &mut d);
+
+        assert_eq!(d.x, 5f32);
+        assert_eq!(d.y, 10f32);
     }
 
     #[test]
