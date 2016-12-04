@@ -15,8 +15,8 @@ impl Default for Vector2f {
     }
 }
 
-impl Vector<Vector2f, f32> for Vector2f {
-    fn add(&mut self, v: &Vector2f) -> &mut Self {
+impl Vector<f32> for Vector2f {
+    fn add(&mut self, v: &Vector2f) -> &mut Vector2f {
         self.x += v.x;
         self.y += v.y;
         self
@@ -54,7 +54,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         (self.x * v.x) + (self.y * v.y)
     }
 
-    fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Self {
+    fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Vector2f {
         self.x = a.mul_add(b.x, self.x);
         self.y = a.mul_add(b.y, self.y);
         self
@@ -65,7 +65,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = a.mul_add(b.y, self.y);
     }
 
-    fn fma_vector(&mut self, a: &Vector2f, b: &Vector2f) -> &mut Self {
+    fn fma_vector(&mut self, a: &Vector2f, b: &Vector2f) -> &mut Vector2f {
         self.x = a.x.mul_add(b.x, self.x);
         self.y = a.y.mul_add(b.y, self.y);
         self
@@ -84,7 +84,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         (self.x * self.x) + (self.y * self.y)
     }
 
-    fn lerp(&mut self, other: &Vector2f, t: f32) -> &mut Self {
+    fn lerp(&mut self, other: &Vector2f, t: f32) -> &mut Vector2f {
         self.x += (other.x - self.x) * t;
         self.y += (other.y - self.y) * t;
         self
@@ -95,7 +95,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = self.y + (other.y - self.y) * t;
     }
 
-    fn mul_scalar(&mut self, s: f32) -> &mut Self {
+    fn mul_scalar(&mut self, s: f32) -> &mut Vector2f {
         self.x *= s;
         self.y *= s;
         self
@@ -106,7 +106,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = self.y * s;
     }
 
-    fn mul_vector(&mut self, v: &Vector2f) -> &mut Self {
+    fn mul_vector(&mut self, v: &Vector2f) -> &mut Vector2f {
         self.x *= v.x;
         self.y *= v.y;
         self
@@ -117,7 +117,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = self.y * v.y;
     }
 
-    fn negate(&mut self) -> &mut Self {
+    fn negate(&mut self) -> &mut Vector2f {
         self.x = -self.x;
         self.y = -self.y;
         self
@@ -128,7 +128,7 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = -self.y;
     }
 
-    fn normalize(&mut self) -> &mut Self {
+    fn normalize(&mut self) -> &mut Vector2f {
         let inv_length = 1f32 / self.length();
         self.x *= inv_length;
         self.y *= inv_length;
@@ -141,13 +141,13 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = self.y * inv_length;
     }
 
-    fn set(&mut self, v: &Vector2f) -> &mut Self {
+    fn set(&mut self, v: &Vector2f) -> &mut Vector2f {
         self.x = v.x;
         self.y = v.y;
         self
     }
 
-    fn sub(&mut self, v: &Vector2f) -> &mut Self {
+    fn sub(&mut self, v: &Vector2f) -> &mut Vector2f {
         self.x -= v.x;
         self.y -= v.y;
         self
@@ -158,22 +158,22 @@ impl Vector<Vector2f, f32> for Vector2f {
         dest.y = self.y - v.y;
     }
 
-    fn zero(&mut self) -> &mut Self {
+    fn zero(&mut self) -> &mut Vector2f {
         self.x = 0f32;
         self.y = 0f32;
         self
     }
 }
 
-impl Vector2<Vector2f, f32> for Vector2f {
-    fn new(x: f32, y: f32) -> Self {
+impl Vector2<f32> for Vector2f {
+    fn new(x: f32, y: f32) -> Vector2f {
         Vector2f {
             x: x,
             y: y,
         }
     }
 
-    fn add_components(&mut self, x: f32, y: f32) -> &mut Self {
+    fn add_components(&mut self, x: f32, y: f32) -> &mut Vector2f {
         self.x += x;
         self.y += y;
         self

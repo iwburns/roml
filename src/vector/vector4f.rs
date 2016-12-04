@@ -8,8 +8,8 @@ pub struct Vector4f {
     pub w: f32,
 }
 
-impl Vector<Vector4f, f32> for Vector4f {
-    fn add(&mut self, v: &Vector4f) -> &mut Self {
+impl Vector<f32> for Vector4f {
+    fn add(&mut self, v: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -37,7 +37,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn fma_scalar(&mut self, a: f32, b: &Vector4f) -> &mut Self {
+    fn fma_scalar(&mut self, a: f32, b: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -45,7 +45,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn fma_vector(&mut self, a: &Vector4f, b: &Vector4f) -> &mut Self {
+    fn fma_vector(&mut self, a: &Vector4f, b: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -61,7 +61,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn lerp(&mut self, other: &Vector4f, t: f32) -> &mut Self {
+    fn lerp(&mut self, other: &Vector4f, t: f32) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -69,7 +69,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn mul_scalar(&mut self, s: f32) -> &mut Self {
+    fn mul_scalar(&mut self, s: f32) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -77,7 +77,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn mul_vector(&mut self, v: &Vector4f) -> &mut Self {
+    fn mul_vector(&mut self, v: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -85,7 +85,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn negate(&mut self) -> &mut Self {
+    fn negate(&mut self) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -93,7 +93,7 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn normalize(&mut self) -> &mut Self {
+    fn normalize(&mut self) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -101,11 +101,11 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn set(&mut self, v: &Vector4f) -> &mut Self {
+    fn set(&mut self, v: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
-    fn sub(&mut self, v: &Vector4f) -> &mut Self {
+    fn sub(&mut self, v: &Vector4f) -> &mut Vector4f {
         unimplemented!()
     }
 
@@ -113,13 +113,13 @@ impl Vector<Vector4f, f32> for Vector4f {
         unimplemented!()
     }
 
-    fn zero(&mut self) -> &mut Self {
+    fn zero(&mut self) -> &mut Vector4f {
         unimplemented!()
     }
 }
 
-impl Vector4<Vector4f, f32> for Vector4f {
-    fn add_components(&mut self, x: f32, y: f32, z: f32, w: f32) -> &mut Self {
+impl Vector4<f32> for Vector4f {
+    fn add_components(&mut self, x: f32, y: f32, z: f32, w: f32) -> &mut Vector4f {
         unimplemented!()
     }
 
