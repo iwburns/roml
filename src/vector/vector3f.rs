@@ -9,7 +9,10 @@ pub struct Vector3f {
 
 impl Vector<f32> for Vector3f {
     fn add(&mut self, v: &Vector3f) -> &mut Vector3f {
-        unimplemented!()
+        self.x += v.x;
+        self.y += v.y;
+        self.z += v.z;
+        self
     }
 
     fn add_into(&self, v: &Vector3f, dest: &mut Vector3f) {
@@ -118,6 +121,14 @@ impl Vector<f32> for Vector3f {
 }
 
 impl Vector3<f32> for Vector3f {
+    fn new(x: f32, y: f32, z: f32) -> Vector3f {
+        Vector3f {
+            x: x,
+            y: y,
+            z: z,
+        }
+    }
+
     fn add_components(&mut self, x: f32, y: f32, z: f32) -> &mut Vector3f {
         unimplemented!()
     }
@@ -132,5 +143,35 @@ impl Vector3<f32> for Vector3f {
 
     fn cross_into(&self, v: &Vector3f, dest: &mut Vector3f) {
         unimplemented!()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::Vector;
+    use super::super::Vector3;
+    use super::Vector3f;
+
+    use std;
+
+    #[test]
+    fn test_new() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+        assert_eq!(a.z, 3f32);
+    }
+
+    #[test]
+    fn test_add() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.add(&b);
+
+        assert_eq!(a.x, 2f32);
+        assert_eq!(a.y, 4f32);
+        assert_eq!(a.z, 6f32);
     }
 }
