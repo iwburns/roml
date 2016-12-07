@@ -35,6 +35,7 @@ pub trait Vector2<T> : Vector<T> {
 }
 
 pub trait Vector3<T> : Vector<T> {
+    fn new(x: T, y: T, z: T) -> Self;
     fn add_components(&mut self, x: T, y: T, z: T) -> &mut Self;
     fn add_components_into(&self, x: T, y: T, z: T, dest: &mut Self);
     fn cross(&mut self, v: &Self) -> &mut Self;
