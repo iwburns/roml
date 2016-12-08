@@ -41,7 +41,7 @@ impl Vector<f32> for Vector3f {
     }
 
     fn dot(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        (self.x * v.x) + (self.y * v.y) + (self.z * v.z)
     }
 
     fn fma_scalar(&mut self, a: f32, b: &Vector3f) -> &mut Vector3f {
@@ -213,5 +213,16 @@ mod tests {
         let distance_sq = a.distance_squared(&b);
 
         assert_eq!(target_distance_sq, distance_sq);
+    }
+
+    #[test]
+    fn test_dot() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+
+        let target_dot = 14f32;
+        let dot = a.dot(&b);
+
+        assert_eq!(target_dot, dot);
     }
 }
