@@ -61,11 +61,11 @@ impl Vector<f32> for Vector3f {
     }
 
     fn length(&self) -> f32 {
-        unimplemented!()
+        self.length_squared().sqrt()
     }
 
     fn length_squared(&self) -> f32 {
-        unimplemented!()
+        (self.x * self.x) + (self.y * self.y) + (self.z * self.z)
     }
 
     fn lerp(&mut self, other: &Vector3f, t: f32) -> &mut Vector3f {
@@ -224,5 +224,25 @@ mod tests {
         let dot = a.dot(&b);
 
         assert_eq!(target_dot, dot);
+    }
+
+    #[test]
+    fn test_length() {
+        let a = Vector3f::new(1f32, 2f32, 2f32);
+
+        let target_length = 3f32;
+        let length = a.length();
+
+        assert_eq!(target_length, length);
+    }
+
+    #[test]
+    fn test_length_squared() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+
+        let target_length_sq = 14f32;
+        let length_sq = a.length_squared();
+
+        assert_eq!(target_length_sq, length_sq);
     }
 }
