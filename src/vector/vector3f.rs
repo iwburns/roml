@@ -16,7 +16,9 @@ impl Vector<f32> for Vector3f {
     }
 
     fn add_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = self.x + v.x;
+        dest.y = self.y + v.y;
+        dest.z = self.z + v.z;
     }
 
     fn angle(&self, v: &Vector3f) -> f32 {
@@ -28,11 +30,14 @@ impl Vector<f32> for Vector3f {
     }
 
     fn distance(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        self.distance_squared(v).sqrt()
     }
 
     fn distance_squared(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        let dx = self.x - v.x;
+        let dy = self.y - v.y;
+        let dz = self.z - v.z;
+        (dx * dx) + (dy * dy) + (dz * dz)
     }
 
     fn dot(&self, v: &Vector3f) -> f32 {
@@ -173,5 +178,40 @@ mod tests {
         assert_eq!(a.x, 2f32);
         assert_eq!(a.y, 4f32);
         assert_eq!(a.z, 6f32);
+    }
+
+    #[test]
+    fn test_add_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+        let mut c = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.add_into(&b, &mut c);
+
+        assert_eq!(c.x, 2f32);
+        assert_eq!(c.y, 4f32);
+        assert_eq!(c.z, 6f32);
+    }
+
+    #[test]
+    fn test_distance() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(-1f32, 2f32, 3f32);
+
+        let target_distance = 2f32;
+        let distance = a.distance(&b);
+
+        assert_eq!(target_distance, distance);
+    }
+
+    #[test]
+    fn test_distance_squared() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(-1f32, 2f32, 3f32);
+
+        let target_distance_sq = 4f32; // target distance is 2
+        let distance_sq = a.distance_squared(&b);
+
+        assert_eq!(target_distance_sq, distance_sq);
     }
 }
