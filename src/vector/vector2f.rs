@@ -34,6 +34,15 @@ impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
     }
 }
 
+impl<'a> From<&'a f32> for Vector2f {
+    fn from(other: &'a f32) -> Vector2f {
+        Vector2f {
+            x: *other,
+            y: *other,
+        }
+    }
+}
+
 impl Vector<f32> for Vector2f {
     fn add<'a, V>(&mut self, v: &'a V) -> &mut Vector2f where &'a V: Into<Vector2f> {
         let v: Vector2f = v.into();
@@ -225,6 +234,7 @@ mod tests {
 
         a.add(&b);
         a.add(&(2f32, 3f32));
+        a.add(&7f32);
     }
 }
 //    #[test]
