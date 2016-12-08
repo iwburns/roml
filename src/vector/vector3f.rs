@@ -16,7 +16,9 @@ impl Vector<f32> for Vector3f {
     }
 
     fn add_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = self.x + v.x;
+        dest.y = self.y + v.y;
+        dest.z = self.z + v.z;
     }
 
     fn angle(&self, v: &Vector3f) -> f32 {
@@ -28,15 +30,18 @@ impl Vector<f32> for Vector3f {
     }
 
     fn distance(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        self.distance_squared(v).sqrt()
     }
 
     fn distance_squared(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        let dx = self.x - v.x;
+        let dy = self.y - v.y;
+        let dz = self.z - v.z;
+        (dx * dx) + (dy * dy) + (dz * dz)
     }
 
     fn dot(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        (self.x * v.x) + (self.y * v.y) + (self.z * v.z)
     }
 
     fn fma_scalar(&mut self, a: f32, b: &Vector3f) -> &mut Vector3f {
@@ -56,11 +61,11 @@ impl Vector<f32> for Vector3f {
     }
 
     fn length(&self) -> f32 {
-        unimplemented!()
+        self.length_squared().sqrt()
     }
 
     fn length_squared(&self) -> f32 {
-        unimplemented!()
+        (self.x * self.x) + (self.y * self.y) + (self.z * self.z)
     }
 
     fn lerp(&mut self, other: &Vector3f, t: f32) -> &mut Vector3f {
@@ -173,5 +178,71 @@ mod tests {
         assert_eq!(a.x, 2f32);
         assert_eq!(a.y, 4f32);
         assert_eq!(a.z, 6f32);
+    }
+
+    #[test]
+    fn test_add_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+        let mut c = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.add_into(&b, &mut c);
+
+        assert_eq!(c.x, 2f32);
+        assert_eq!(c.y, 4f32);
+        assert_eq!(c.z, 6f32);
+    }
+
+    #[test]
+    fn test_distance() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(-1f32, 2f32, 3f32);
+
+        let target_distance = 2f32;
+        let distance = a.distance(&b);
+
+        assert_eq!(target_distance, distance);
+    }
+
+    #[test]
+    fn test_distance_squared() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(-1f32, 2f32, 3f32);
+
+        let target_distance_sq = 4f32; // target distance is 2
+        let distance_sq = a.distance_squared(&b);
+
+        assert_eq!(target_distance_sq, distance_sq);
+    }
+
+    #[test]
+    fn test_dot() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+
+        let target_dot = 14f32;
+        let dot = a.dot(&b);
+
+        assert_eq!(target_dot, dot);
+    }
+
+    #[test]
+    fn test_length() {
+        let a = Vector3f::new(1f32, 2f32, 2f32);
+
+        let target_length = 3f32;
+        let length = a.length();
+
+        assert_eq!(target_length, length);
+    }
+
+    #[test]
+    fn test_length_squared() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+
+        let target_length_sq = 14f32;
+        let length_sq = a.length_squared();
+
+        assert_eq!(target_length_sq, length_sq);
     }
 }
