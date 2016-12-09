@@ -103,11 +103,16 @@ impl Vector<f32> for Vector3f {
     }
 
     fn negate(&mut self) -> &mut Vector3f {
-        unimplemented!()
+        self.x = -self.x;
+        self.y = -self.y;
+        self.z = -self.z;
+        self
     }
 
     fn negate_into(&self, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = -self.x;
+        dest.y = -self.y;
+        dest.z = -self.z;
     }
 
     fn normalize(&mut self) -> &mut Vector3f {
@@ -302,5 +307,28 @@ mod tests {
         assert_eq!(c.x, 1f32);
         assert_eq!(c.y, 4f32);
         assert_eq!(c.z, 9f32);
+    }
+
+    #[test]
+    fn test_negate() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.negate();
+
+        assert_eq!(a.x, -1f32);
+        assert_eq!(a.y, -2f32);
+        assert_eq!(a.z, -3f32);
+    }
+
+    #[test]
+    fn test_negate_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let mut b = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.negate_into(&mut b);
+
+        assert_eq!(b.x, -1f32);
+        assert_eq!(b.y, -2f32);
+        assert_eq!(b.z, -3f32);
     }
 }
