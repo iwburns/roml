@@ -77,27 +77,42 @@ impl Vector<f32> for Vector3f {
     }
 
     fn mul_scalar(&mut self, s: f32) -> &mut Vector3f {
-        unimplemented!()
+        self.x *= s;
+        self.y *= s;
+        self.z *= s;
+        self
     }
 
     fn mul_scalar_into(&self, s: f32, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = self.x * s;
+        dest.y = self.y * s;
+        dest.z = self.z * s;
     }
 
     fn mul_vector(&mut self, v: &Vector3f) -> &mut Vector3f {
-        unimplemented!()
+        self.x *= v.x;
+        self.y *= v.y;
+        self.z *= v.z;
+        self
     }
 
     fn mul_vector_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = self.x * v.x;
+        dest.y = self.y * v.y;
+        dest.z = self.z * v.z;
     }
 
     fn negate(&mut self) -> &mut Vector3f {
-        unimplemented!()
+        self.x = -self.x;
+        self.y = -self.y;
+        self.z = -self.z;
+        self
     }
 
     fn negate_into(&self, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = -self.x;
+        dest.y = -self.y;
+        dest.z = -self.z;
     }
 
     fn normalize(&mut self) -> &mut Vector3f {
@@ -244,5 +259,76 @@ mod tests {
         let length_sq = a.length_squared();
 
         assert_eq!(target_length_sq, length_sq);
+    }
+
+    #[test]
+    fn test_mul_scalar() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.mul_scalar(2f32);
+
+        assert_eq!(a.x, 2f32);
+        assert_eq!(a.y, 4f32);
+        assert_eq!(a.z, 6f32);
+    }
+
+    #[test]
+    fn test_mul_scalar_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let mut b = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.mul_scalar_into(2f32, &mut b);
+
+        assert_eq!(b.x, 2f32);
+        assert_eq!(b.y, 4f32);
+        assert_eq!(b.z, 6f32);
+    }
+
+    #[test]
+    fn test_mul_vector(){
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.mul_vector(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 4f32);
+        assert_eq!(a.z, 9f32);
+    }
+
+    #[test]
+    fn test_mul_vector_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+        let mut c = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.mul_vector_into(&b, &mut c);
+
+        assert_eq!(c.x, 1f32);
+        assert_eq!(c.y, 4f32);
+        assert_eq!(c.z, 9f32);
+    }
+
+    #[test]
+    fn test_negate() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.negate();
+
+        assert_eq!(a.x, -1f32);
+        assert_eq!(a.y, -2f32);
+        assert_eq!(a.z, -3f32);
+    }
+
+    #[test]
+    fn test_negate_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let mut b = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.negate_into(&mut b);
+
+        assert_eq!(b.x, -1f32);
+        assert_eq!(b.y, -2f32);
+        assert_eq!(b.z, -3f32);
     }
 }
