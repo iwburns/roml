@@ -138,15 +138,23 @@ impl Vector<f32> for Vector3f {
     }
 
     fn sub(&mut self, v: &Vector3f) -> &mut Vector3f {
-        unimplemented!()
+        self.x -= v.x;
+        self.y -= v.y;
+        self.z -= v.z;
+        self
     }
 
     fn sub_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        unimplemented!()
+        dest.x = self.x - v.x;
+        dest.y = self.y - v.y;
+        dest.z = self.z - v.z;
     }
 
     fn zero(&mut self) -> &mut Vector3f {
-        unimplemented!()
+        self.x = 0f32;
+        self.y = 0f32;
+        self.z = 0f32;
+        self
     }
 }
 
@@ -371,5 +379,41 @@ mod tests {
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
         assert_eq!(a.z, 3f32);
+    }
+
+    #[test]
+    fn test_sub() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(0f32, 1f32, 2f32);
+
+        a.sub(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 1f32);
+        assert_eq!(a.z, 1f32);
+    }
+
+    #[test]
+    fn test_sub_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::new(0f32, 1f32, 2f32);
+        let mut c = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.sub_into(&b, &mut c);
+
+        assert_eq!(c.x, 1f32);
+        assert_eq!(c.y, 1f32);
+        assert_eq!(c.z, 1f32);
+    }
+
+    #[test]
+    fn test_zero() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.zero();
+
+        assert_eq!(a.x, 0f32);
+        assert_eq!(a.y, 0f32);
+        assert_eq!(a.z, 0f32);
     }
 }
