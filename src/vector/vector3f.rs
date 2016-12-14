@@ -116,15 +116,25 @@ impl Vector<f32> for Vector3f {
     }
 
     fn normalize(&mut self) -> &mut Vector3f {
-        unimplemented!()
+        let inv_length = 1.0f32 / self.length();
+        self.x *= inv_length;
+        self.y *= inv_length;
+        self.z *= inv_length;
+        self
     }
 
     fn normalize_into(&self, dest: &mut Vector3f) {
-        unimplemented!()
+        let inv_length = 1.0f32 / self.length();
+        dest.x = self.x * inv_length;
+        dest.y = self.y * inv_length;
+        dest.z = self.z * inv_length;
     }
 
     fn set(&mut self, v: &Vector3f) -> &mut Vector3f {
-        unimplemented!()
+        self.x = v.x;
+        self.y = v.y;
+        self.z = v.z;
+        self
     }
 
     fn sub(&mut self, v: &Vector3f) -> &mut Vector3f {
@@ -330,5 +340,36 @@ mod tests {
         assert_eq!(b.x, -1f32);
         assert_eq!(b.y, -2f32);
         assert_eq!(b.z, -3f32);
+    }
+
+    #[test]
+    fn test_normalize() {
+        let mut a = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.normalize();
+
+        assert!((1f32 - a.length()).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_normalize_into() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let mut b = Vector3f::new(0f32, 0f32, 0f32);
+
+        a.normalize_into(&mut b);
+
+        assert!((1f32 - b.length()).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_set() {
+        let mut a = Vector3f::new(0f32, 0f32, 0f32);
+        let b = Vector3f::new(1f32, 2f32, 3f32);
+
+        a.set(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+        assert_eq!(a.z, 3f32);
     }
 }
