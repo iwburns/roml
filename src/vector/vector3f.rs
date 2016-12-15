@@ -22,11 +22,17 @@ impl Vector<f32> for Vector3f {
     }
 
     fn angle(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        let mut cos = self.angle_cos(v);
+        cos = cos.min(1f32);
+        cos = cos.max(-1f32);
+        cos.acos()
     }
 
     fn angle_cos(&self, v: &Vector3f) -> f32 {
-        unimplemented!()
+        let self_len_squared = self.length_squared();
+        let v_len_squared = v.length_squared();
+        let dot = self.dot(v);
+        dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
     fn distance(&self, v: &Vector3f) -> f32 {
@@ -224,6 +230,28 @@ mod tests {
         assert_eq!(c.x, 2f32);
         assert_eq!(c.y, 4f32);
         assert_eq!(c.z, 6f32);
+    }
+
+    #[test]
+    fn test_angle() {
+        let a = Vector3f::new(1f32, 0f32, 0f32);
+        let b = Vector3f::new(0f32, 1f32, 0f32);
+
+        let target_angle = 90f32.to_radians();
+        let angle = a.angle(&b);
+
+        assert!((target_angle - angle).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_angle_cos() {
+        let a = Vector3f::new(1f32, 0f32, 0f32);
+        let b = Vector3f::new(0f32, 1f32, 0f32);
+
+        let target_angle_cos = 90f32.to_radians().cos();
+        let angle_cos = a.angle_cos(&b);
+
+        assert!((target_angle_cos - angle_cos).abs() <= std::f32::EPSILON);
     }
 
     #[test]
