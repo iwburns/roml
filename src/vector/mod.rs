@@ -42,4 +42,4 @@ pub trait Vector4<C>: Vector<C> {
 
 pub mod vector2f;
 pub mod vector3f;
-// pub mod vector4f;
+pub mod vector4f;
