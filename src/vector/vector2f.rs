@@ -39,7 +39,7 @@ impl Vector<f32> for Vector2f {
     fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
-        let rhs: Self = rhs.into();
+        let rhs = Vector2f::from(rhs);
         self.x += rhs.x;
         self.y += rhs.y;
         self
@@ -178,24 +178,34 @@ mod tests {
 
     //    use std;
 
-    //    #[test]
-    //    fn test_new() {
-    //        let a = Vector2f::new(1f32, 2f32);
-    //
-    //        assert_eq!(a.x, 1f32);
-    //        assert_eq!(a.y, 2f32);
-    //    }
-    //
-    //    #[test]
-    //    fn test_add() {
-    //        let mut a = Vector2f::default();
-    //        let b = Vector2f::new(1f32, 2f32);
-    //
-    //        a.add(&b);
-    //
-    //        assert_eq!(a.x, 1f32);
-    //        assert_eq!(a.y, 2f32);
-    //    }
+    #[test]
+    fn test_new() {
+        let a = Vector2f::new(1f32, 2f32);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+    }
+
+    #[test]
+    fn test_add() {
+        let mut a = Vector2f::default();
+        let b = Vector2f::new(1f32, 2f32);
+
+        a.add(&b);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+
+        a.add(&1f32);
+
+        assert_eq!(a.x, 2f32);
+        assert_eq!(a.y, 3f32);
+
+        a.add(&(1f32, 2f32));
+
+        assert_eq!(a.x, 3f32);
+        assert_eq!(a.y, 5f32);
+    }
     //    #[test]
     //    fn test_add_into() {
     //        let a = Vector2f::new(1f32, 1f32);
