@@ -1,41 +1,33 @@
-use std;
-
-pub type TwoTuple<T> = (T, T);
-
-pub trait Vector<T> where Self: std::marker::Sized {
-    fn add<'a, V>(&mut self, v: &'a V) -> &mut Self where &'a V: Into<Self>;
-//    fn add_into(&self, v: &Self, dest: &mut Self);
-//    fn angle(&self, v: &Self) -> T;
-//    fn angle_cos(&self, v: &Self) -> T;
-//    fn distance(&self, v: &Self) -> T;
-//    fn distance_squared(&self, v: &Self) -> T;
-//    fn dot(&self, v: &Self) -> T;
-//    fn fma_scalar(&mut self, a: T, b: &Self) -> &mut Self;
-//    fn fma_scalar_into(&self, a: T, b: &Self, dest: &mut Self);
-//    fn fma_vector(&mut self, a: &Self, b: &Self) -> &mut Self;
-//    fn fma_vector_into(&self, a: &Self, b: &Self, dest: &mut Self);
-//    fn length(&self) -> T;
-//    fn length_squared(&self) -> T;
-//    fn lerp(&mut self, other: &Self, t: T) -> &mut Self;
-//    fn lerp_into(&self, other: &Self, t: T, dest: &mut Self);
-//    fn mul_scalar(&mut self, s: T) -> &mut Self;
-//    fn mul_scalar_into(&self, s: T, dest: &mut Self);
-//    fn mul_vector(&mut self, v: &Self) -> &mut Self;
-//    fn mul_vector_into(&self, v: &Self, dest: &mut Self);
-//    fn negate(&mut self) -> &mut Self;
-//    fn negate_into(&self, dest: &mut Self);
-//    fn normalize(&mut self) -> &mut Self;
-//    fn normalize_into(&self, dest: &mut Self);
-//    fn set(&mut self, v: &Self) -> &mut Self;
-//    fn sub(&mut self, v: &Self) -> &mut Self;
-//    fn sub_into(&self, v: &Self, dest: &mut Self);
-//    fn zero(&mut self) -> &mut Self;
+pub trait Vector<C>
+    where Self: Sized
+{
+    fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn add_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self) where Self: From<&'a V>;
+    fn angle<'a, V: 'a>(&self, rhs: &'a V) -> C where Self: From<&'a V>;
+    fn angle_cos<'a, V: 'a>(&self, rhs: &'a V) -> C where Self: From<&'a V>;
+    fn distance<'a, V: 'a>(&self, rhs: &'a V) -> C where Self: From<&'a V>;
+    fn distance_sq<'a, V: 'a>(&self, rhs: &'a V) -> C where Self: From<&'a V>;
+    fn dot<'a, V: 'a>(&self, rhs: &'a V) -> C where Self: From<&'a V>;
+    fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self) where Self: From<&'a V>;
+    fn length(&self) -> C;
+    fn length_squared(&self) -> C;
+    fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: C) -> &mut Self where Self: From<&'a V>;
+    fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: C, dest: &mut Self) where Self: From<&'a V>;
+    fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn mul_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self) where Self: From<&'a V>;
+    fn negate(&mut self) -> &mut Self;
+    fn negate_into(&self, dest: &mut Self);
+    fn normalize(&mut self) -> &mut Self;
+    fn normalize_into(&self, dest: &mut Self);
+    fn set<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn sub<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn sub_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self) where Self: From<&'a V>;
+    fn zero(&mut self) -> &mut Self;
 }
 
-pub trait Vector2<T> : Vector<T> {
-    fn new(x: T, y: T) -> Self;
-//    fn add_components(&mut self, x: T, y: T) -> &mut Self;
-//    fn add_components_into(&self, x: T, y: T, dest: &mut Self);
+pub trait Vector2<C>: Vector<C> {
+    fn new(x: C, y: C) -> Self;
 }
 
 //pub trait Vector3<T> : Vector<T> {
