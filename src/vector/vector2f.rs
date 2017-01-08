@@ -179,24 +179,24 @@ mod tests {
 
     use std;
 
-    #[test]
-    fn test_new() {
-        let a = Vector2f::new(1f32, 2f32);
-
-        assert_eq!(a.x, 1f32);
-        assert_eq!(a.y, 2f32);
-    }
-
-    #[test]
-    fn test_add() {
-        let mut a = Vector2f::default();
-        let b = Vector2f::new(1f32, 2f32);
-
-        a.add(&b);
-
-        assert_eq!(a.x, 1f32);
-        assert_eq!(a.y, 2f32);
-    }
+    //    #[test]
+    //    fn test_new() {
+    //        let a = Vector2f::new(1f32, 2f32);
+    //
+    //        assert_eq!(a.x, 1f32);
+    //        assert_eq!(a.y, 2f32);
+    //    }
+    //
+    //    #[test]
+    //    fn test_add() {
+    //        let mut a = Vector2f::default();
+    //        let b = Vector2f::new(1f32, 2f32);
+    //
+    //        a.add(&b);
+    //
+    //        assert_eq!(a.x, 1f32);
+    //        assert_eq!(a.y, 2f32);
+    //    }
     //    #[test]
     //    fn test_add_into() {
     //        let a = Vector2f::new(1f32, 1f32);

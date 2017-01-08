@@ -30,18 +30,16 @@ pub trait Vector2<C>: Vector<C> {
     fn new(x: C, y: C) -> Self;
 }
 
-// pub trait Vector3<T> : Vector<T> {
-//    fn add_components(&mut self, x: T, y: T, z: T) -> &mut Self;
-//    fn add_components_into(&self, x: T, y: T, z: T, dest: &mut Self);
-//    fn cross(&mut self, v: &Self) -> &mut Self;
-//    fn cross_into(&self, v: &Self, dest: &mut Self);
-//
-//
-// pub trait Vector4<T> : Vector<T> {
-//    fn add_components(&mut self, x: T, y: T, z: T, w: T) -> &mut Self;
-//    fn add_components_into(&self, x: T, y: T, z: T, w: T, dest: &mut Self);
-//
+pub trait Vector3<C>: Vector<C> {
+    fn new(x: C, y: C, z: C) -> Self;
+    fn cross<'a, V: 'a>(&mut self, v: &'a V) -> &mut Self where Self: From<&'a V>;
+    fn cross_into<'a, V: 'a>(&self, v: &'a V, dest: &mut Self) where Self: From<&'a V>;
+}
+
+pub trait Vector4<C>: Vector<C> {
+    fn new(x: C, y: C, z: C, w: C) -> Self;
+}
 
 pub mod vector2f;
-// pub mod vector3f;
+pub mod vector3f;
 // pub mod vector4f;
