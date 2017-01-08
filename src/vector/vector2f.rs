@@ -1,7 +1,6 @@
-use super::Vector;
-use super::Vector2;
-
-pub type TwoTuple<T> = (T, T);
+use vector::Vector;
+use vector::Vector2;
+use TwoTuple;
 
 #[derive(Default)]
 pub struct Vector2f {
@@ -173,11 +172,11 @@ impl Vector2<f32> for Vector2f {
 
 #[cfg(test)]
 mod tests {
-    use super::super::Vector;
-    use super::super::Vector2;
+    use vector::Vector;
+    use vector::Vector2;
     use super::Vector2f;
 
-    use std;
+    //    use std;
 
     //    #[test]
     //    fn test_new() {
