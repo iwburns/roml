@@ -1,3 +1,20 @@
+// todo:
+// for _into methods, add two more generic types `D` and `T`.
+// `D` will be specific to just those functions
+// `T` will be generic across the whole Vector<C>
+//
+// change to: pub trait Vector<C, T> {}
+// and it will be impl'd like this:
+// impl Vector<f32, Vector2> for Vector2f {}
+//
+// then add getters/setters to Vector2
+// (if needed) make Vector2 not a Sub-Trait of Vector
+//
+// then the trait bound on `D` can be `where D: T`
+// this allows us to just call setters on D no matter what type it is.
+// need to evaluate performance of this concept.
+//
+
 pub trait Vector<C>
     where Self: Sized
 {
