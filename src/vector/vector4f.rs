@@ -67,7 +67,7 @@ impl Vector<f32> for Vector4f {
         unimplemented!()
     }
 
-    fn length_squared(&self) -> f32 {
+    fn length_sq(&self) -> f32 {
         unimplemented!()
     }
 

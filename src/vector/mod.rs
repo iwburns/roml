@@ -15,6 +15,8 @@
 // need to evaluate performance of this concept.
 //
 
+
+// todo: change zero to clear or something like that
 pub trait Vector<C>
     where Self: Sized
 {
@@ -28,7 +30,7 @@ pub trait Vector<C>
     fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self where Self: From<&'a V>;
     fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self) where Self: From<&'a V>;
     fn length(&self) -> C;
-    fn length_squared(&self) -> C;
+    fn length_sq(&self) -> C;
     fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: C) -> &mut Self where Self: From<&'a V>;
     fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: C, dest: &mut Self) where Self: From<&'a V>;
     fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self where Self: From<&'a V>;
