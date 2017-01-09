@@ -235,6 +235,31 @@ mod tests {
     }
 
     #[test]
+    fn test_from_vector2f() {
+        let a = Vector2f::new(1f32, 2f32);
+        let b = Vector2f::from(&a);
+
+        assert_eq!(b.x, 1f32);
+        assert_eq!(b.y, 2f32);
+    }
+
+    #[test]
+    fn test_from_two_tuple() {
+        let a = Vector2f::from(&(1f32, 2f32));
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+    }
+
+    #[test]
+    fn test_from_f32() {
+        let a = Vector2f::from(&1f32);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 1f32);
+    }
+
+    #[test]
     fn test_add() {
         let mut a = Vector2f::default();
         let b = Vector2f::new(1f32, 2f32);
@@ -243,16 +268,6 @@ mod tests {
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
-
-        a.add(&1f32);
-
-        assert_eq!(a.x, 2f32);
-        assert_eq!(a.y, 3f32);
-
-        a.add(&(1f32, 2f32));
-
-        assert_eq!(a.x, 3f32);
-        assert_eq!(a.y, 5f32);
     }
 
     #[test]
