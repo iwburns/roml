@@ -17,15 +17,6 @@ impl<'a> From<&'a Vector2f> for Vector2f {
     }
 }
 
-impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
-    fn from(other: &'a TwoTuple<f32>) -> Vector2f {
-        Vector2f {
-            x: other.0,
-            y: other.1,
-        }
-    }
-}
-
 impl<'a> From<&'a f32> for Vector2f {
     fn from(other: &'a f32) -> Vector2f {
         Vector2f {
@@ -34,6 +25,166 @@ impl<'a> From<&'a f32> for Vector2f {
         }
     }
 }
+
+impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
+    fn from(other: &'a TwoTuple<f32>) -> Vector2f {
+        Vector2f {
+            x: other.0,
+            y: other.1,
+        }
+    }
+}
+/*
+impl Vector<f32> for Vector2f {
+    fn add(&mut self, v: &Vector2f) -> &mut Vector2f {
+        self.x += v.x;
+        self.y += v.y;
+        self
+    }
+
+    fn add_into(&self, v: &Vector2f, dest: &mut Vector2f) {
+        dest.x = self.x + v.x;
+        dest.y = self.y + v.y;
+    }
+
+    fn angle(&self, v: &Vector2f) -> f32 {
+        let dot = self.dot(v);
+        let det = (self.x * v.y) - (self.y * v.x);
+        det.atan2(dot)
+    }
+
+    fn angle_cos(&self, v: &Vector2f) -> f32 {
+        let self_len_squared = self.length_squared();
+        let v_len_squared = v.length_squared();
+        let dot = self.dot(v);
+        dot / ((self_len_squared * v_len_squared).sqrt())
+    }
+
+    fn distance(&self, v: &Vector2f) -> f32 {
+        self.distance_squared(v).sqrt()
+    }
+
+    fn distance_squared(&self, v: &Vector2f) -> f32 {
+        let dx = self.x - v.x;
+        let dy = self.y - v.y;
+        (dx * dx) + (dy * dy)
+    }
+
+    fn dot(&self, v: &Vector2f) -> f32 {
+        (self.x * v.x) + (self.y * v.y)
+    }
+
+    fn fma_scalar(&mut self, a: f32, b: &Vector2f) -> &mut Vector2f {
+        self.x = a.mul_add(b.x, self.x);
+        self.y = a.mul_add(b.y, self.y);
+        self
+    }
+
+    fn fma_scalar_into(&self, a: f32, b: &Vector2f, dest: &mut Vector2f) {
+        dest.x = a.mul_add(b.x, self.x);
+        dest.y = a.mul_add(b.y, self.y);
+    }
+
+    fn fma_vector(&mut self, a: &Vector2f, b: &Vector2f) -> &mut Vector2f {
+        self.x = a.x.mul_add(b.x, self.x);
+        self.y = a.y.mul_add(b.y, self.y);
+        self
+    }
+
+    fn fma_vector_into(&self, a: &Vector2f, b: &Vector2f, dest: &mut Vector2f) {
+        dest.x = a.x.mul_add(b.x, self.x);
+        dest.y = a.y.mul_add(b.y, self.y);
+    }
+
+    fn length(&self) -> f32 {
+        self.length_squared().sqrt()
+    }
+
+    fn length_squared(&self) -> f32 {
+        (self.x * self.x) + (self.y * self.y)
+    }
+
+    fn lerp(&mut self, other: &Vector2f, t: f32) -> &mut Vector2f {
+        self.x += (other.x - self.x) * t;
+        self.y += (other.y - self.y) * t;
+        self
+    }
+
+    fn lerp_into(&self, other: &Vector2f, t: f32, dest: &mut Vector2f) {
+        dest.x = self.x + (other.x - self.x) * t;
+        dest.y = self.y + (other.y - self.y) * t;
+    }
+
+    fn mul_scalar(&mut self, s: f32) -> &mut Vector2f {
+        self.x *= s;
+        self.y *= s;
+        self
+    }
+
+    fn mul_scalar_into(&self, s: f32, dest: &mut Vector2f) {
+        dest.x = self.x * s;
+        dest.y = self.y * s;
+    }
+
+    fn mul_vector(&mut self, v: &Vector2f) -> &mut Vector2f {
+        self.x *= v.x;
+        self.y *= v.y;
+        self
+    }
+
+    fn mul_vector_into(&self, v: &Vector2f, dest: &mut Vector2f) {
+        dest.x = self.x * v.x;
+        dest.y = self.y * v.y;
+    }
+
+    fn negate(&mut self) -> &mut Vector2f {
+        self.x = -self.x;
+        self.y = -self.y;
+        self
+    }
+
+    fn negate_into(&self, dest: &mut Vector2f) {
+        dest.x = -self.x;
+        dest.y = -self.y;
+    }
+
+    fn normalize(&mut self) -> &mut Vector2f {
+        let inv_length = 1f32 / self.length();
+        self.x *= inv_length;
+        self.y *= inv_length;
+        self
+    }
+
+    fn normalize_into(&self, dest: &mut Vector2f) {
+        let inv_length = 1f32 / self.length();
+        dest.x = self.x * inv_length;
+        dest.y = self.y * inv_length;
+    }
+
+    fn set(&mut self, v: &Vector2f) -> &mut Vector2f {
+        self.x = v.x;
+        self.y = v.y;
+        self
+    }
+
+    fn sub(&mut self, v: &Vector2f) -> &mut Vector2f {
+        self.x -= v.x;
+        self.y -= v.y;
+        self
+    }
+
+    fn sub_into(&self, v: &Vector2f, dest: &mut Vector2f) {
+        dest.x = self.x - v.x;
+        dest.y = self.y - v.y;
+    }
+
+    fn zero(&mut self) -> &mut Vector2f {
+        self.x = 0f32;
+        self.y = 0f32;
+        self
+    }
+}
+*/
 
 impl Vector<f32> for Vector2f {
     fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
