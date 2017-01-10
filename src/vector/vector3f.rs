@@ -1,177 +1,232 @@
-use super::Vector;
-use super::Vector3;
+use vector::Vector;
+use vector::Vector3;
+use ThreeTuple;
 
+#[derive(Default)]
 pub struct Vector3f {
     pub x: f32,
     pub y: f32,
     pub z: f32,
 }
 
+impl<'a> From<&'a Vector3f> for Vector3f {
+    fn from(other: &'a Vector3f) -> Vector3f {
+        Vector3f {
+            x: other.x,
+            y: other.y,
+            z: other.z,
+        }
+    }
+}
+
+impl<'a> From<&'a f32> for Vector3f {
+    fn from(other: &'a f32) -> Vector3f {
+        Vector3f {
+            x: *other,
+            y: *other,
+            z: *other,
+        }
+    }
+}
+
+impl<'a> From<&'a ThreeTuple<f32>> for Vector3f {
+    fn from(other: &'a ThreeTuple<f32>) -> Vector3f {
+        Vector3f {
+            x: other.0,
+            y: other.1,
+            z: other.2,
+        }
+    }
+}
+
 impl Vector<f32> for Vector3f {
-    fn add(&mut self, v: &Vector3f) -> &mut Vector3f {
-        self.x += v.x;
-        self.y += v.y;
-        self.z += v.z;
+    fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        self.x += rhs.x;
+        self.y += rhs.y;
+        self.z += rhs.z;
         self
     }
 
-    fn add_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        dest.x = self.x + v.x;
-        dest.y = self.y + v.y;
-        dest.z = self.z + v.z;
+    fn add_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        dest.x = self.x + rhs.x;
+        dest.y = self.y + rhs.y;
+        dest.z = self.z + rhs.z;
     }
 
-    fn angle(&self, v: &Vector3f) -> f32 {
-        let mut cos = self.angle_cos(v);
+    fn angle<'a, V: 'a>(&self, rhs: &'a V) -> f32
+        where Self: From<&'a V>
+    {
+        let v = Vector3f::from(rhs);
+        let mut cos = self.angle_cos(rhs);
         cos = cos.min(1f32);
         cos = cos.max(-1f32);
         cos.acos()
     }
 
-    fn angle_cos(&self, v: &Vector3f) -> f32 {
-        let self_len_squared = self.length_squared();
-        let v_len_squared = v.length_squared();
-        let dot = self.dot(v);
+    fn angle_cos<'a, V: 'a>(&self, rhs: &'a V) -> f32
+        where Self: From<&'a V>
+    {
+        let v = Vector3f::from(rhs);
+        let self_len_squared = self.length_sq();
+        let v_len_squared = v.length_sq();
+        let dot = self.dot(rhs);
         dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
-    fn distance(&self, v: &Vector3f) -> f32 {
-        self.distance_squared(v).sqrt()
+    fn distance<'a, V: 'a>(&self, rhs: &'a V) -> f32
+        where Self: From<&'a V>
+    {
+        self.distance_sq(rhs).sqrt()
     }
 
-    fn distance_squared(&self, v: &Vector3f) -> f32 {
-        let dx = self.x - v.x;
-        let dy = self.y - v.y;
-        let dz = self.z - v.z;
+    fn distance_sq<'a, V: 'a>(&self, rhs: &'a V) -> f32
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        let dx = self.x - rhs.x;
+        let dy = self.y - rhs.y;
+        let dz = self.z - rhs.z;
         (dx * dx) + (dy * dy) + (dz * dz)
     }
 
-    fn dot(&self, v: &Vector3f) -> f32 {
+    fn dot<'a, V: 'a>(&self, rhs: &'a V) -> f32
+        where Self: From<&'a V>
+    {
+        let v = Vector3f::from(rhs);
         (self.x * v.x) + (self.y * v.y) + (self.z * v.z)
     }
 
-    fn fma_scalar(&mut self, a: f32, b: &Vector3f) -> &mut Vector3f {
-        self.x = a.mul_add(b.x, self.x);
-        self.y = a.mul_add(b.y, self.y);
-        self.z = a.mul_add(b.z, self.z);
-        self
-    }
-
-    fn fma_scalar_into(&self, a: f32, b: &Vector3f, dest: &mut Vector3f) {
-        dest.x = a.mul_add(b.x, self.x);
-        dest.y = a.mul_add(b.y, self.y);
-        dest.z = a.mul_add(b.z, self.z);
-    }
-
-    fn fma_vector(&mut self, a: &Vector3f, b: &Vector3f) -> &mut Vector3f {
+    fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let a = Vector3f::from(a);
+        let b = Vector3f::from(b);
         self.x = a.x.mul_add(b.x, self.x);
         self.y = a.y.mul_add(b.y, self.y);
         self.z = a.z.mul_add(b.z, self.z);
         self
     }
 
-    fn fma_vector_into(&self, a: &Vector3f, b: &Vector3f, dest: &mut Vector3f) {
+    fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let a = Vector3f::from(a);
+        let b = Vector3f::from(b);
         dest.x = a.x.mul_add(b.x, self.x);
         dest.y = a.y.mul_add(b.y, self.y);
         dest.z = a.z.mul_add(b.z, self.z);
     }
 
     fn length(&self) -> f32 {
-        self.length_squared().sqrt()
+        self.length_sq().sqrt()
     }
 
-    fn length_squared(&self) -> f32 {
+    fn length_sq(&self) -> f32 {
         (self.x * self.x) + (self.y * self.y) + (self.z * self.z)
     }
 
-    fn lerp(&mut self, other: &Vector3f, t: f32) -> &mut Vector3f {
+    fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: f32) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let other = Vector3f::from(other);
         self.x += (other.x - self.x) * t;
         self.y += (other.y - self.y) * t;
         self.z += (other.z - self.z) * t;
         self
     }
 
-    fn lerp_into(&self, other: &Vector3f, t: f32, dest: &mut Vector3f) {
+    fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: f32, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let other = Vector3f::from(other);
         dest.x = self.x + (other.x - self.x) * t;
         dest.y = self.y + (other.y - self.y) * t;
         dest.z = self.z + (other.z - self.z) * t;
     }
 
-    fn mul_scalar(&mut self, s: f32) -> &mut Vector3f {
-        self.x *= s;
-        self.y *= s;
-        self.z *= s;
+    fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        self.x *= rhs.x;
+        self.y *= rhs.y;
+        self.z *= rhs.z;
         self
     }
 
-    fn mul_scalar_into(&self, s: f32, dest: &mut Vector3f) {
-        dest.x = self.x * s;
-        dest.y = self.y * s;
-        dest.z = self.z * s;
+    fn mul_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        dest.x = self.x * rhs.x;
+        dest.y = self.y * rhs.y;
+        dest.z = self.z * rhs.z;
     }
 
-    fn mul_vector(&mut self, v: &Vector3f) -> &mut Vector3f {
-        self.x *= v.x;
-        self.y *= v.y;
-        self.z *= v.z;
-        self
-    }
-
-    fn mul_vector_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        dest.x = self.x * v.x;
-        dest.y = self.y * v.y;
-        dest.z = self.z * v.z;
-    }
-
-    fn negate(&mut self) -> &mut Vector3f {
+    fn negate(&mut self) -> &mut Self {
         self.x = -self.x;
         self.y = -self.y;
         self.z = -self.z;
         self
     }
 
-    fn negate_into(&self, dest: &mut Vector3f) {
+    fn negate_into(&self, dest: &mut Self) {
         dest.x = -self.x;
         dest.y = -self.y;
         dest.z = -self.z;
     }
 
-    fn normalize(&mut self) -> &mut Vector3f {
-        let inv_length = 1.0f32 / self.length();
+    fn normalize(&mut self) -> &mut Self {
+        let inv_length = 1f32 / self.length();
         self.x *= inv_length;
         self.y *= inv_length;
         self.z *= inv_length;
         self
     }
 
-    fn normalize_into(&self, dest: &mut Vector3f) {
-        let inv_length = 1.0f32 / self.length();
+    fn normalize_into(&self, dest: &mut Self) {
+        let inv_length = 1f32 / self.length();
         dest.x = self.x * inv_length;
         dest.y = self.y * inv_length;
         dest.z = self.z * inv_length;
     }
 
-    fn set(&mut self, v: &Vector3f) -> &mut Vector3f {
-        self.x = v.x;
-        self.y = v.y;
-        self.z = v.z;
+    fn set<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        self.x = rhs.x;
+        self.y = rhs.y;
+        self.z = rhs.z;
         self
     }
 
-    fn sub(&mut self, v: &Vector3f) -> &mut Vector3f {
-        self.x -= v.x;
-        self.y -= v.y;
-        self.z -= v.z;
+    fn sub<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        self.x -= rhs.x;
+        self.y -= rhs.y;
+        self.z -= rhs.z;
         self
     }
 
-    fn sub_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        dest.x = self.x - v.x;
-        dest.y = self.y - v.y;
-        dest.z = self.z - v.z;
+    fn sub_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        dest.x = self.x - rhs.x;
+        dest.y = self.y - rhs.y;
+        dest.z = self.z - rhs.z;
     }
 
-    fn zero(&mut self) -> &mut Vector3f {
+    fn zero(&mut self) -> &mut Self {
         self.x = 0f32;
         self.y = 0f32;
         self.z = 0f32;
@@ -180,28 +235,33 @@ impl Vector<f32> for Vector3f {
 }
 
 impl Vector3<f32> for Vector3f {
-    fn new(x: f32, y: f32, z: f32) -> Vector3f {
-        Vector3f {
-            x: x,
-            y: y,
-            z: z,
-        }
+    fn new(x: f32, y: f32, z: f32) -> Self {
+        Vector3f { x: x, y: y, z: z }
     }
 
-    fn add_components(&mut self, x: f32, y: f32, z: f32) -> &mut Vector3f {
-        unimplemented!()
+    fn cross<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+
+        let x = (self.y * rhs.z) - (self.z * rhs.y);
+        let y = (self.z * rhs.x) - (self.x * rhs.z);
+        let z = (self.x * rhs.y) - (self.y * rhs.x);
+
+        self.x = x;
+        self.y = y;
+        self.z = z;
+
+        self
     }
 
-    fn add_components_into(&self, x: f32, y: f32, z: f32, dest: &mut Vector3f) {
-        unimplemented!()
-    }
-
-    fn cross(&mut self, v: &Vector3f) -> &mut Vector3f {
-        unimplemented!()
-    }
-
-    fn cross_into(&self, v: &Vector3f, dest: &mut Vector3f) {
-        unimplemented!()
+    fn cross_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        dest.x = (self.y * rhs.z) - (self.z * rhs.y);
+        dest.y = (self.z * rhs.x) - (self.x * rhs.z);
+        dest.z = (self.x * rhs.y) - (self.y * rhs.x);
     }
 }
 
@@ -220,6 +280,34 @@ mod tests {
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
         assert_eq!(a.z, 3f32);
+    }
+
+    #[test]
+    fn test_from_vector3f() {
+        let a = Vector3f::new(1f32, 2f32, 3f32);
+        let b = Vector3f::from(&a);
+
+        assert_eq!(b.x, 1f32);
+        assert_eq!(b.y, 2f32);
+        assert_eq!(b.z, 3f32);
+    }
+
+    #[test]
+    fn test_from_three_tuple() {
+        let a = Vector3f::from(&(1f32, 2f32, 3f32));
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 2f32);
+        assert_eq!(a.z, 3f32);
+    }
+
+    #[test]
+    fn test_from_f32() {
+        let a = Vector3f::from(&1f32);
+
+        assert_eq!(a.x, 1f32);
+        assert_eq!(a.y, 1f32);
+        assert_eq!(a.z, 1f32);
     }
 
     #[test]
@@ -281,12 +369,12 @@ mod tests {
     }
 
     #[test]
-    fn test_distance_squared() {
+    fn test_distance_sq() {
         let a = Vector3f::new(1f32, 2f32, 3f32);
         let b = Vector3f::new(-1f32, 2f32, 3f32);
 
         let target_distance_sq = 4f32; // target distance is 2
-        let distance_sq = a.distance_squared(&b);
+        let distance_sq = a.distance_sq(&b);
 
         assert_eq!(target_distance_sq, distance_sq);
     }
@@ -303,39 +391,12 @@ mod tests {
     }
 
     #[test]
-    fn test_fma_scalar() {
-        let mut a = Vector3f::new(1f32, 1f32, 1f32);
-        let b = 2f32;
-        let c = Vector3f::new(2f32, 3f32, 4f32);
-
-        a.fma_scalar(b, &c);
-
-        assert_eq!(a.x, 5f32);
-        assert_eq!(a.y, 7f32);
-        assert_eq!(a.z, 9f32);
-    }
-
-    #[test]
-    fn test_fma_scalar_into() {
-        let a = Vector3f::new(1f32, 1f32, 1f32);
-        let b = 2f32;
-        let c = Vector3f::new(2f32, 3f32, 4f32);
-        let mut d = Vector3f::new(0f32, 0f32, 0f32);
-
-        a.fma_scalar_into(b, &c, &mut d);
-
-        assert_eq!(d.x, 5f32);
-        assert_eq!(d.y, 7f32);
-        assert_eq!(d.z, 9f32);
-    }
-
-    #[test]
-    fn test_fma_vector() {
+    fn test_fma() {
         let mut a = Vector3f::new(1f32, 1f32, 1f32);
         let b = Vector3f::new(2f32, 3f32, 4f32);
         let c = Vector3f::new(2f32, 3f32, 4f32);
 
-        a.fma_vector(&b, &c);
+        a.fma(&b, &c);
 
         assert_eq!(a.x, 5f32);
         assert_eq!(a.y, 10f32);
@@ -343,13 +404,13 @@ mod tests {
     }
 
     #[test]
-    fn test_fma_vector_into() {
+    fn test_fma_into() {
         let a = Vector3f::new(1f32, 1f32, 1f32);
         let b = Vector3f::new(2f32, 3f32, 4f32);
         let c = Vector3f::new(2f32, 3f32, 4f32);
         let mut d = Vector3f::new(0f32, 0f32, 0f32);
 
-        a.fma_vector_into(&b, &c, &mut d);
+        a.fma_into(&b, &c, &mut d);
 
         assert_eq!(d.x, 5f32);
         assert_eq!(d.y, 10f32);
@@ -371,7 +432,7 @@ mod tests {
         let a = Vector3f::new(1f32, 2f32, 3f32);
 
         let target_length_sq = 14f32;
-        let length_sq = a.length_squared();
+        let length_sq = a.length_sq();
 
         assert_eq!(target_length_sq, length_sq);
     }
@@ -402,34 +463,11 @@ mod tests {
     }
 
     #[test]
-    fn test_mul_scalar() {
-        let mut a = Vector3f::new(1f32, 2f32, 3f32);
-
-        a.mul_scalar(2f32);
-
-        assert_eq!(a.x, 2f32);
-        assert_eq!(a.y, 4f32);
-        assert_eq!(a.z, 6f32);
-    }
-
-    #[test]
-    fn test_mul_scalar_into() {
-        let a = Vector3f::new(1f32, 2f32, 3f32);
-        let mut b = Vector3f::new(0f32, 0f32, 0f32);
-
-        a.mul_scalar_into(2f32, &mut b);
-
-        assert_eq!(b.x, 2f32);
-        assert_eq!(b.y, 4f32);
-        assert_eq!(b.z, 6f32);
-    }
-
-    #[test]
-    fn test_mul_vector(){
+    fn test_mul() {
         let mut a = Vector3f::new(1f32, 2f32, 3f32);
         let b = Vector3f::new(1f32, 2f32, 3f32);
 
-        a.mul_vector(&b);
+        a.mul(&b);
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 4f32);
@@ -437,12 +475,12 @@ mod tests {
     }
 
     #[test]
-    fn test_mul_vector_into() {
+    fn test_mul_into() {
         let a = Vector3f::new(1f32, 2f32, 3f32);
         let b = Vector3f::new(1f32, 2f32, 3f32);
         let mut c = Vector3f::new(0f32, 0f32, 0f32);
 
-        a.mul_vector_into(&b, &mut c);
+        a.mul_into(&b, &mut c);
 
         assert_eq!(c.x, 1f32);
         assert_eq!(c.y, 4f32);
@@ -537,5 +575,31 @@ mod tests {
         assert_eq!(a.x, 0f32);
         assert_eq!(a.y, 0f32);
         assert_eq!(a.z, 0f32);
+    }
+
+    #[test]
+    fn test_cross() {
+        let mut a = Vector3f::new(1f32, 0f32, 0f32);
+        let b = Vector3f::new(0f32, 1f32, 0f32);
+
+        a.cross(&b);
+
+        assert_eq!(a.x, 0f32);
+        assert_eq!(a.y, 0f32);
+        assert_eq!(a.z, 1f32);
+    }
+
+    #[test]
+    fn test_cross_into() {
+        let a = Vector3f::new(1f32, 0f32, 0f32);
+        let b = Vector3f::new(0f32, 1f32, 0f32);
+        let mut c = Vector3f::new(0f32, 0f32, 0f32);
+
+
+        a.cross_into(&b, &mut c);
+
+        assert_eq!(c.x, 0f32);
+        assert_eq!(c.y, 0f32);
+        assert_eq!(c.z, 1f32);
     }
 }
