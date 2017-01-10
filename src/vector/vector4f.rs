@@ -9,55 +9,55 @@ pub struct Vector4f {
 }
 
 impl Vector<f32> for Vector4f {
-    fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn add<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn add_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn add_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn angle<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn angle_cos<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle_cos<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn distance<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn distance_sq<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance_sq<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn dot<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn dot<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self
+    fn fma<'a, V>(&mut self, a: &'a V, b: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self)
+    fn fma_into<'a, V>(&self, a: &'a V, b: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         unimplemented!()
@@ -71,25 +71,25 @@ impl Vector<f32> for Vector4f {
         unimplemented!()
     }
 
-    fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: f32) -> &mut Self
+    fn lerp<'a, V>(&mut self, other: &'a V, t: f32) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: f32, dest: &mut Self)
+    fn lerp_into<'a, V>(&self, other: &'a V, t: f32, dest: &mut Self)
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn mul<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn mul_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn mul_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         unimplemented!()
@@ -111,19 +111,19 @@ impl Vector<f32> for Vector4f {
         unimplemented!()
     }
 
-    fn set<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn set<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn sub<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn sub<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         unimplemented!()
     }
 
-    fn sub_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn sub_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         unimplemented!()

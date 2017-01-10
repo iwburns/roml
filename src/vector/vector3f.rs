@@ -40,7 +40,7 @@ impl<'a> From<&'a ThreeTuple<f32>> for Vector3f {
 }
 
 impl Vector<f32> for Vector3f {
-    fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn add<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -50,7 +50,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn add_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn add_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -59,7 +59,7 @@ impl Vector<f32> for Vector3f {
         dest.z = self.z + rhs.z;
     }
 
-    fn angle<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let v = Vector3f::from(rhs);
@@ -69,7 +69,7 @@ impl Vector<f32> for Vector3f {
         cos.acos()
     }
 
-    fn angle_cos<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle_cos<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let v = Vector3f::from(rhs);
@@ -79,13 +79,13 @@ impl Vector<f32> for Vector3f {
         dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
-    fn distance<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         self.distance_sq(rhs).sqrt()
     }
 
-    fn distance_sq<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance_sq<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -95,14 +95,14 @@ impl Vector<f32> for Vector3f {
         (dx * dx) + (dy * dy) + (dz * dz)
     }
 
-    fn dot<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn dot<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let v = Vector3f::from(rhs);
         (self.x * v.x) + (self.y * v.y) + (self.z * v.z)
     }
 
-    fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self
+    fn fma<'a, V>(&mut self, a: &'a V, b: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let a = Vector3f::from(a);
@@ -113,7 +113,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self)
+    fn fma_into<'a, V>(&self, a: &'a V, b: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let a = Vector3f::from(a);
@@ -131,7 +131,7 @@ impl Vector<f32> for Vector3f {
         (self.x * self.x) + (self.y * self.y) + (self.z * self.z)
     }
 
-    fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: f32) -> &mut Self
+    fn lerp<'a, V>(&mut self, other: &'a V, t: f32) -> &mut Self
         where Self: From<&'a V>
     {
         let other = Vector3f::from(other);
@@ -141,7 +141,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: f32, dest: &mut Self)
+    fn lerp_into<'a, V>(&self, other: &'a V, t: f32, dest: &mut Self)
         where Self: From<&'a V>
     {
         let other = Vector3f::from(other);
@@ -150,7 +150,7 @@ impl Vector<f32> for Vector3f {
         dest.z = self.z + (other.z - self.z) * t;
     }
 
-    fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn mul<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -160,7 +160,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn mul_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn mul_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -197,7 +197,7 @@ impl Vector<f32> for Vector3f {
         dest.z = self.z * inv_length;
     }
 
-    fn set<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn set<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -207,7 +207,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn sub<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn sub<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -217,7 +217,7 @@ impl Vector<f32> for Vector3f {
         self
     }
 
-    fn sub_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn sub_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -239,7 +239,7 @@ impl Vector3<f32> for Vector3f {
         Vector3f { x: x, y: y, z: z }
     }
 
-    fn cross<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn cross<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);
@@ -255,7 +255,7 @@ impl Vector3<f32> for Vector3f {
         self
     }
 
-    fn cross_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn cross_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector3f::from(rhs);

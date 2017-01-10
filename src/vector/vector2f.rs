@@ -36,7 +36,7 @@ impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
 }
 
 impl Vector<f32> for Vector2f {
-    fn add<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn add<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -45,7 +45,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn add_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn add_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -53,7 +53,7 @@ impl Vector<f32> for Vector2f {
         dest.y = self.y + rhs.y;
     }
 
-    fn angle<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let v = Vector2f::from(rhs);
@@ -62,7 +62,7 @@ impl Vector<f32> for Vector2f {
         det.atan2(dot)
     }
 
-    fn angle_cos<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn angle_cos<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let v = Vector2f::from(rhs);
@@ -72,13 +72,13 @@ impl Vector<f32> for Vector2f {
         dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
-    fn distance<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         self.distance_sq(rhs).sqrt()
     }
 
-    fn distance_sq<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn distance_sq<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -87,14 +87,14 @@ impl Vector<f32> for Vector2f {
         (dx * dx) + (dy * dy)
     }
 
-    fn dot<'a, V: 'a>(&self, rhs: &'a V) -> f32
+    fn dot<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
         (self.x * rhs.x) + (self.y * rhs.y)
     }
 
-    fn fma<'a, V: 'a>(&mut self, a: &'a V, b: &'a V) -> &mut Self
+    fn fma<'a, V>(&mut self, a: &'a V, b: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let a = Vector2f::from(a);
@@ -104,7 +104,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn fma_into<'a, V: 'a>(&self, a: &'a V, b: &'a V, dest: &mut Self)
+    fn fma_into<'a, V>(&self, a: &'a V, b: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let a = Vector2f::from(a);
@@ -121,7 +121,7 @@ impl Vector<f32> for Vector2f {
         (self.x * self.x) + (self.y * self.y)
     }
 
-    fn lerp<'a, V: 'a>(&mut self, other: &'a V, t: f32) -> &mut Self
+    fn lerp<'a, V>(&mut self, other: &'a V, t: f32) -> &mut Self
         where Self: From<&'a V>
     {
         let other = Vector2f::from(other);
@@ -130,7 +130,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn lerp_into<'a, V: 'a>(&self, other: &'a V, t: f32, dest: &mut Self)
+    fn lerp_into<'a, V>(&self, other: &'a V, t: f32, dest: &mut Self)
         where Self: From<&'a V>
     {
         let other = Vector2f::from(other);
@@ -138,7 +138,7 @@ impl Vector<f32> for Vector2f {
         dest.y = self.y + (other.y - self.y) * t;
     }
 
-    fn mul<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn mul<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -147,7 +147,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn mul_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn mul_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -179,7 +179,7 @@ impl Vector<f32> for Vector2f {
         dest.y = self.y * inv_length;
     }
 
-    fn set<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn set<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -188,7 +188,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn sub<'a, V: 'a>(&mut self, rhs: &'a V) -> &mut Self
+    fn sub<'a, V>(&mut self, rhs: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
@@ -197,7 +197,7 @@ impl Vector<f32> for Vector2f {
         self
     }
 
-    fn sub_into<'a, V: 'a>(&self, rhs: &'a V, dest: &mut Self)
+    fn sub_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
         let rhs = Vector2f::from(rhs);
