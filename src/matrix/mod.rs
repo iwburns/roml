@@ -24,17 +24,18 @@ pub trait SquareMatrix<T>: Matrix<T> {
 }
 
 pub enum Mat2Index {
+    Zero,
     One,
-    Two,
 }
 
 pub enum Mat3Index {
+    Zero,
     One,
     Two,
-    Three,
 }
 
 pub enum Mat4Index {
+    Zero,
     One,
     Two,
     Three,
