@@ -1,11 +1,16 @@
-use super::vector::Vector3;
-
 // Self just needs to be a matrix.  Size and shape of Self do not matter.
 pub trait Matrix<T> {
+    type RowIndex;
+    type ColIndex;
+    type RowVector;
+    type ColVector;
+
     fn add(&mut self, m: &Self) -> &mut Self;
     fn add_into(&self, m: &Self, dest: &mut Self);
     fn sub(&mut self, m: &Self) -> &mut Self;
     fn sub_into(&self, m: &Self, dest: &mut Self);
+    fn get_column(&self, column: Self::ColIndex, dest: &mut Self::ColVector);
+    fn get_row(&self, column: Self::RowIndex, dest: &mut Self::RowVector);
     // todo: add more here
 }
 
@@ -18,18 +23,21 @@ pub trait SquareMatrix<T>: Matrix<T> {
     // todo: add more here
 }
 
+pub enum Mat2Index {
+    One,
+    Two,
+}
+
 pub enum Mat3Index {
     One,
     Two,
     Three,
 }
 
-// Self has to be a square 3x3 matrix
-pub trait Matrix3<T>: SquareMatrix<T> {
-    type V: Vector3<T>;
-
-    fn get_column(&self, column: Mat3Index, dest: &mut Self::V);
-    fn get_row(&self, row: Mat3Index, dest: &mut Self::V);
+pub enum Mat4Index {
+    One,
+    Two,
+    Three,
 }
 
 pub mod matrix3f;
