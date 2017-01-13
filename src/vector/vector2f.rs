@@ -1,4 +1,4 @@
-use vector::Vector;
+use vector::ReadVector2;
 use vector::Vector2;
 use TwoTuple;
 
@@ -8,109 +8,114 @@ pub struct Vector2f {
     pub y: f32,
 }
 
-impl<'a> From<&'a Vector2f> for Vector2f {
-    fn from(other: &'a Vector2f) -> Vector2f {
-        Vector2f {
-            x: other.x,
-            y: other.y,
-        }
+impl ReadVector2<f32> for Vector2f {
+    fn x(&self) -> f32 {
+        self.x
+    }
+    fn y(&self) -> f32 {
+        self.y
     }
 }
 
-impl<'a> From<&'a f32> for Vector2f {
-    fn from(other: &'a f32) -> Vector2f {
-        Vector2f {
-            x: *other,
-            y: *other,
-        }
+impl ReadVector2<f32> for f32 {
+    fn x(&self) -> f32 {
+        *self
+    }
+    fn y(&self) -> f32 {
+        *self
     }
 }
 
-impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
-    fn from(other: &'a TwoTuple<f32>) -> Vector2f {
-        Vector2f {
-            x: other.0,
-            y: other.1,
-        }
+impl ReadVector2<f32> for TwoTuple<f32> {
+    fn x(&self) -> f32 {
+        self.0
+    }
+    fn y(&self) -> f32 {
+        self.1
     }
 }
 
-impl Vector<f32> for Vector2f {
-    fn add<'a, V>(&mut self, rhs: &'a V) -> &mut Self
-        where Self: From<&'a V>
+impl Vector2<f32> for Vector2f {
+    fn new(x: f32, y: f32) -> Self {
+        Vector2f {
+            x: x,
+            y: y,
+        }
+    }
+
+    fn set_x(&mut self, x: f32) {
+        self.x = x;
+    }
+
+    fn set_y(&mut self, y: f32) {
+        self.y = y;
+    }
+
+    fn add<V>(&mut self, rhs: &V) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        self.x += rhs.x;
-        self.y += rhs.y;
+        self.x += rhs.x();
+        self.y += rhs.y();
         self
     }
 
-    fn add_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
-        where Self: From<&'a V>
+    fn add_into<V>(&self, rhs: &V, dest: &mut Self)
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        dest.x = self.x + rhs.x;
-        dest.y = self.y + rhs.y;
+        dest.x = self.x + rhs.x();
+        dest.y = self.y + rhs.y();
     }
 
-    fn angle<'a, V>(&self, rhs: &'a V) -> f32
-        where Self: From<&'a V>
+    fn angle<V>(&self, rhs: &V) -> f32
+        where V: ReadVector2<f32>
     {
-        let v = Vector2f::from(rhs);
         let dot = self.dot(rhs);
-        let det = (self.x * v.y) - (self.y * v.x);
+        let det = (self.x * rhs.y()) - (self.y * rhs.x());
         det.atan2(dot)
     }
 
-    fn angle_cos<'a, V>(&self, rhs: &'a V) -> f32
-        where Self: From<&'a V>
+    fn angle_cos<V>(&self, rhs: &V) -> f32
+        where V: ReadVector2<f32>
     {
-        let v = Vector2f::from(rhs);
         let self_len_squared = self.length_sq();
-        let v_len_squared = v.length_sq();
+        let v_len_squared = Vector2f::new(rhs.x(), rhs.y()).length_sq();
         let dot = self.dot(rhs);
         dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
-    fn distance<'a, V>(&self, rhs: &'a V) -> f32
-        where Self: From<&'a V>
+    fn distance<V>(&self, rhs: &V) -> f32
+        where V: ReadVector2<f32>
     {
         self.distance_sq(rhs).sqrt()
     }
 
-    fn distance_sq<'a, V>(&self, rhs: &'a V) -> f32
-        where Self: From<&'a V>
+    fn distance_sq<V>(&self, rhs: &V) -> f32
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        let dx = self.x - rhs.x;
-        let dy = self.y - rhs.y;
+        let dx = self.x - rhs.x();
+        let dy = self.y - rhs.y();
         (dx * dx) + (dy * dy)
     }
 
-    fn dot<'a, V>(&self, rhs: &'a V) -> f32
-        where Self: From<&'a V>
+    fn dot<V>(&self, rhs: &V) -> f32
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        (self.x * rhs.x) + (self.y * rhs.y)
+        (self.x * rhs.x()) + (self.y * rhs.y())
     }
 
-    fn fma<'a, V>(&mut self, a: &'a V, b: &'a V) -> &mut Self
-        where Self: From<&'a V>
+    fn fma<V>(&mut self, a: &V, b: &V) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let a = Vector2f::from(a);
-        let b = Vector2f::from(b);
-        self.x = a.x.mul_add(b.x, self.x);
-        self.y = a.y.mul_add(b.y, self.y);
+        self.x = a.x().mul_add(b.x(), self.x);
+        self.y = a.y().mul_add(b.y(), self.y);
         self
     }
 
-    fn fma_into<'a, V>(&self, a: &'a V, b: &'a V, dest: &mut Self)
-        where Self: From<&'a V>
+    fn fma_into<V>(&self, a: &V, b: &V, dest: &mut Self)
+        where V: ReadVector2<f32>
     {
-        let a = Vector2f::from(a);
-        let b = Vector2f::from(b);
-        dest.x = a.x.mul_add(b.x, self.x);
-        dest.y = a.y.mul_add(b.y, self.y);
+        dest.x = a.x().mul_add(b.x(), self.x);
+        dest.y = a.y().mul_add(b.y(), self.y);
     }
 
     fn length(&self) -> f32 {
@@ -121,38 +126,34 @@ impl Vector<f32> for Vector2f {
         (self.x * self.x) + (self.y * self.y)
     }
 
-    fn lerp<'a, V>(&mut self, other: &'a V, t: f32) -> &mut Self
-        where Self: From<&'a V>
+    fn lerp<V>(&mut self, other: &V, t: f32) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let other = Vector2f::from(other);
-        self.x += (other.x - self.x) * t;
-        self.y += (other.y - self.y) * t;
+        self.x += (other.x() - self.x) * t;
+        self.y += (other.y() - self.y) * t;
         self
     }
 
-    fn lerp_into<'a, V>(&self, other: &'a V, t: f32, dest: &mut Self)
-        where Self: From<&'a V>
+    fn lerp_into<V>(&self, other: &V, t: f32, dest: &mut Self)
+        where V: ReadVector2<f32>
     {
-        let other = Vector2f::from(other);
-        dest.x = self.x + (other.x - self.x) * t;
-        dest.y = self.y + (other.y - self.y) * t;
+        dest.x = self.x + (other.x() - self.x) * t;
+        dest.y = self.y + (other.y() - self.y) * t;
     }
 
-    fn mul<'a, V>(&mut self, rhs: &'a V) -> &mut Self
-        where Self: From<&'a V>
+    fn mul<V>(&mut self, rhs: &V) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        self.x *= rhs.x;
-        self.y *= rhs.y;
+        self.x *= rhs.x();
+        self.y *= rhs.y();
         self
     }
 
-    fn mul_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
-        where Self: From<&'a V>
+    fn mul_into<V>(&self, rhs: &V, dest: &mut Self)
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        dest.x = self.x * rhs.x;
-        dest.y = self.y * rhs.y;
+        dest.x = self.x * rhs.x();
+        dest.y = self.y * rhs.y();
     }
 
     fn negate(&mut self) -> &mut Self {
@@ -179,30 +180,27 @@ impl Vector<f32> for Vector2f {
         dest.y = self.y * inv_length;
     }
 
-    fn set<'a, V>(&mut self, rhs: &'a V) -> &mut Self
-        where Self: From<&'a V>
+    fn set<V>(&mut self, rhs: &V) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        self.x = rhs.x;
-        self.y = rhs.y;
+        self.x = rhs.x();
+        self.y = rhs.y();
         self
     }
 
-    fn sub<'a, V>(&mut self, rhs: &'a V) -> &mut Self
-        where Self: From<&'a V>
+    fn sub<V>(&mut self, rhs: &V) -> &mut Self
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        self.x -= rhs.x;
-        self.y -= rhs.y;
+        self.x -= rhs.x();
+        self.y -= rhs.y();
         self
     }
 
-    fn sub_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
-        where Self: From<&'a V>
+    fn sub_into<V>(&self, rhs: &V, dest: &mut Self)
+        where V: ReadVector2<f32>
     {
-        let rhs = Vector2f::from(rhs);
-        dest.x = self.x - rhs.x;
-        dest.y = self.y - rhs.y;
+        dest.x = self.x - rhs.x();
+        dest.y = self.y - rhs.y();
     }
 
     fn zero(&mut self) -> &mut Self {
@@ -212,15 +210,8 @@ impl Vector<f32> for Vector2f {
     }
 }
 
-impl Vector2<f32> for Vector2f {
-    fn new(x: f32, y: f32) -> Vector2f {
-        Vector2f { x: x, y: y }
-    }
-}
-
 #[cfg(test)]
 mod tests {
-    use vector::Vector;
     use vector::Vector2;
     use super::Vector2f;
 
@@ -235,34 +226,31 @@ mod tests {
     }
 
     #[test]
-    fn test_from_vector2f() {
-        let a = Vector2f::new(1f32, 2f32);
-        let b = Vector2f::from(&a);
+    fn test_add() {
+        let mut a = Vector2f::default();
+        let b = Vector2f::new(1f32, 2f32);
 
-        assert_eq!(b.x, 1f32);
-        assert_eq!(b.y, 2f32);
-    }
-
-    #[test]
-    fn test_from_two_tuple() {
-        let a = Vector2f::from(&(1f32, 2f32));
+        a.add(&b);
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 2f32);
     }
 
     #[test]
-    fn test_from_f32() {
-        let a = Vector2f::from(&1f32);
+    fn test_add_float() {
+        let mut a = Vector2f::default();
+        let b = 1f32;
+
+        a.add(&b);
 
         assert_eq!(a.x, 1f32);
         assert_eq!(a.y, 1f32);
     }
 
     #[test]
-    fn test_add() {
+    fn test_add_tuple() {
         let mut a = Vector2f::default();
-        let b = Vector2f::new(1f32, 2f32);
+        let b = (1f32, 2f32);
 
         a.add(&b);
 
