@@ -9,33 +9,34 @@ pub struct Vector3f {
     pub z: f32,
 }
 
-impl<'a> From<&'a Vector3f> for Vector3f {
-    fn from(other: &'a Vector3f) -> Vector3f {
-        Vector3f {
-            x: other.x,
-            y: other.y,
-            z: other.z,
-        }
+impl Vector3<f32> for Vector3f {
+    fn new(x: f32, y: f32, z: f32) -> Self {
+        Vector3f { x: x, y: y, z: z }
     }
-}
 
-impl<'a> From<&'a f32> for Vector3f {
-    fn from(other: &'a f32) -> Vector3f {
-        Vector3f {
-            x: *other,
-            y: *other,
-            z: *other,
-        }
+    fn cross<'a, V>(&mut self, rhs: &'a V) -> &mut Self
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+
+        let x = (self.y * rhs.z) - (self.z * rhs.y);
+        let y = (self.z * rhs.x) - (self.x * rhs.z);
+        let z = (self.x * rhs.y) - (self.y * rhs.x);
+
+        self.x = x;
+        self.y = y;
+        self.z = z;
+
+        self
     }
-}
 
-impl<'a> From<&'a ThreeTuple<f32>> for Vector3f {
-    fn from(other: &'a ThreeTuple<f32>) -> Vector3f {
-        Vector3f {
-            x: other.0,
-            y: other.1,
-            z: other.2,
-        }
+    fn cross_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
+        where Self: From<&'a V>
+    {
+        let rhs = Vector3f::from(rhs);
+        dest.x = (self.y * rhs.z) - (self.z * rhs.y);
+        dest.y = (self.z * rhs.x) - (self.x * rhs.z);
+        dest.z = (self.x * rhs.y) - (self.y * rhs.x);
     }
 }
 
@@ -234,42 +235,41 @@ impl Vector<f32> for Vector3f {
     }
 }
 
-impl Vector3<f32> for Vector3f {
-    fn new(x: f32, y: f32, z: f32) -> Self {
-        Vector3f { x: x, y: y, z: z }
+impl<'a> From<&'a Vector3f> for Vector3f {
+    fn from(other: &'a Vector3f) -> Vector3f {
+        Vector3f {
+            x: other.x,
+            y: other.y,
+            z: other.z,
+        }
     }
+}
 
-    fn cross<'a, V>(&mut self, rhs: &'a V) -> &mut Self
-        where Self: From<&'a V>
-    {
-        let rhs = Vector3f::from(rhs);
-
-        let x = (self.y * rhs.z) - (self.z * rhs.y);
-        let y = (self.z * rhs.x) - (self.x * rhs.z);
-        let z = (self.x * rhs.y) - (self.y * rhs.x);
-
-        self.x = x;
-        self.y = y;
-        self.z = z;
-
-        self
+impl<'a> From<&'a ThreeTuple<f32>> for Vector3f {
+    fn from(other: &'a ThreeTuple<f32>) -> Vector3f {
+        Vector3f {
+            x: other.0,
+            y: other.1,
+            z: other.2,
+        }
     }
+}
 
-    fn cross_into<'a, V>(&self, rhs: &'a V, dest: &mut Self)
-        where Self: From<&'a V>
-    {
-        let rhs = Vector3f::from(rhs);
-        dest.x = (self.y * rhs.z) - (self.z * rhs.y);
-        dest.y = (self.z * rhs.x) - (self.x * rhs.z);
-        dest.z = (self.x * rhs.y) - (self.y * rhs.x);
+impl<'a> From<&'a f32> for Vector3f {
+    fn from(other: &'a f32) -> Vector3f {
+        Vector3f {
+            x: *other,
+            y: *other,
+            z: *other,
+        }
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use super::super::Vector;
-    use super::super::Vector3;
-    use super::Vector3f;
+    use vector::Vector;
+    use vector::Vector3;
+    use vector::vector3f::Vector3f;
 
     use std;
 
@@ -283,7 +283,7 @@ mod tests {
     }
 
     #[test]
-    fn test_from_vector3f() {
+    fn test_from_vector() {
         let a = Vector3f::new(1f32, 2f32, 3f32);
         let b = Vector3f::from(&a);
 
@@ -293,7 +293,7 @@ mod tests {
     }
 
     #[test]
-    fn test_from_three_tuple() {
+    fn test_from_tuple() {
         let a = Vector3f::from(&(1f32, 2f32, 3f32));
 
         assert_eq!(a.x, 1f32);

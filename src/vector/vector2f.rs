@@ -8,30 +8,9 @@ pub struct Vector2f {
     pub y: f32,
 }
 
-impl<'a> From<&'a Vector2f> for Vector2f {
-    fn from(other: &'a Vector2f) -> Vector2f {
-        Vector2f {
-            x: other.x,
-            y: other.y,
-        }
-    }
-}
-
-impl<'a> From<&'a f32> for Vector2f {
-    fn from(other: &'a f32) -> Vector2f {
-        Vector2f {
-            x: *other,
-            y: *other,
-        }
-    }
-}
-
-impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
-    fn from(other: &'a TwoTuple<f32>) -> Vector2f {
-        Vector2f {
-            x: other.0,
-            y: other.1,
-        }
+impl Vector2<f32> for Vector2f {
+    fn new(x: f32, y: f32) -> Vector2f {
+        Vector2f { x: x, y: y }
     }
 }
 
@@ -212,9 +191,30 @@ impl Vector<f32> for Vector2f {
     }
 }
 
-impl Vector2<f32> for Vector2f {
-    fn new(x: f32, y: f32) -> Vector2f {
-        Vector2f { x: x, y: y }
+impl<'a> From<&'a Vector2f> for Vector2f {
+    fn from(other: &'a Vector2f) -> Vector2f {
+        Vector2f {
+            x: other.x,
+            y: other.y,
+        }
+    }
+}
+
+impl<'a> From<&'a TwoTuple<f32>> for Vector2f {
+    fn from(other: &'a TwoTuple<f32>) -> Vector2f {
+        Vector2f {
+            x: other.0,
+            y: other.1,
+        }
+    }
+}
+
+impl<'a> From<&'a f32> for Vector2f {
+    fn from(other: &'a f32) -> Vector2f {
+        Vector2f {
+            x: *other,
+            y: *other,
+        }
     }
 }
 
@@ -235,7 +235,7 @@ mod tests {
     }
 
     #[test]
-    fn test_from_vector2f() {
+    fn test_from_vector() {
         let a = Vector2f::new(1f32, 2f32);
         let b = Vector2f::from(&a);
 
@@ -244,7 +244,7 @@ mod tests {
     }
 
     #[test]
-    fn test_from_two_tuple() {
+    fn test_from_tuple() {
         let a = Vector2f::from(&(1f32, 2f32));
 
         assert_eq!(a.x, 1f32);
