@@ -45,13 +45,21 @@ impl Vector<f32> for Vector4f {
     fn angle<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let v = Vector4f::from(rhs);
+        let mut cos = self.angle_cos(rhs);
+        cos = cos.min(1f32);
+        cos = cos.max(-1f32);
+        cos.acos()
     }
 
     fn angle_cos<'a, V>(&self, rhs: &'a V) -> f32
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let v = Vector4f::from(rhs);
+        let self_len_squared = self.length_sq();
+        let v_len_squared = v.length_sq();
+        let dot = self.dot(rhs);
+        dot / ((self_len_squared * v_len_squared).sqrt())
     }
 
     fn distance<'a, V>(&self, rhs: &'a V) -> f32
@@ -81,13 +89,24 @@ impl Vector<f32> for Vector4f {
     fn fma<'a, V>(&mut self, a: &'a V, b: &'a V) -> &mut Self
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let a = Vector4f::from(a);
+        let b = Vector4f::from(b);
+        self.x = a.x.mul_add(b.x, self.x);
+        self.y = a.y.mul_add(b.y, self.y);
+        self.z = a.z.mul_add(b.z, self.z);
+        self.w = a.w.mul_add(b.w, self.w);
+        self
     }
 
     fn fma_into<'a, V>(&self, a: &'a V, b: &'a V, dest: &mut Self)
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let a = Vector4f::from(a);
+        let b = Vector4f::from(b);
+        dest.x = a.x.mul_add(b.x, self.x);
+        dest.y = a.y.mul_add(b.y, self.y);
+        dest.z = a.z.mul_add(b.z, self.z);
+        dest.w = a.w.mul_add(b.w, self.w);
     }
 
     fn length(&self) -> f32 {
@@ -101,13 +120,22 @@ impl Vector<f32> for Vector4f {
     fn lerp<'a, V>(&mut self, other: &'a V, t: f32) -> &mut Self
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let other = Vector4f::from(other);
+        self.x += (other.x - self.x) * t;
+        self.y += (other.y - self.y) * t;
+        self.z += (other.z - self.z) * t;
+        self.w += (other.w - self.w) * t;
+        self
     }
 
     fn lerp_into<'a, V>(&self, other: &'a V, t: f32, dest: &mut Self)
         where Self: From<&'a V>
     {
-        unimplemented!()
+        let other = Vector4f::from(other);
+        dest.x = self.x + (other.x - self.x) * t;
+        dest.y = self.y + (other.y - self.y) * t;
+        dest.z = self.z + (other.z - self.z) * t;
+        dest.w = self.w + (other.w - self.w) * t;
     }
 
     fn mul<'a, V>(&mut self, rhs: &'a V) -> &mut Self
@@ -312,29 +340,29 @@ mod tests {
         assert_eq!(c.z, 6f32);
         assert_eq!(c.w, 8f32);
     }
-//
-//    #[test]
-//    fn test_angle() {
-//        let a = Vector3f::new(1f32, 0f32, 0f32);
-//        let b = Vector3f::new(0f32, 1f32, 0f32);
-//
-//        let target_angle = 90f32.to_radians();
-//        let angle = a.angle(&b);
-//
-//        assert!((target_angle - angle).abs() <= std::f32::EPSILON);
-//    }
-//
-//    #[test]
-//    fn test_angle_cos() {
-//        let a = Vector3f::new(1f32, 0f32, 0f32);
-//        let b = Vector3f::new(0f32, 1f32, 0f32);
-//
-//        let target_angle_cos = 90f32.to_radians().cos();
-//        let angle_cos = a.angle_cos(&b);
-//
-//        assert!((target_angle_cos - angle_cos).abs() <= std::f32::EPSILON);
-//    }
-//
+
+    #[test]
+    fn test_angle() {
+        let a = Vector4f::new(1f32, 0f32, 0f32, 0f32);
+        let b = Vector4f::new(0f32, 1f32, 0f32, 0f32);
+
+        let target_angle = 90f32.to_radians();
+        let angle = a.angle(&b);
+
+        assert!((target_angle - angle).abs() <= std::f32::EPSILON);
+    }
+
+    #[test]
+    fn test_angle_cos() {
+        let a = Vector4f::new(1f32, 0f32, 0f32, 0f32);
+        let b = Vector4f::new(0f32, 1f32, 0f32, 0f32);
+
+        let target_angle_cos = 90f32.to_radians().cos();
+        let angle_cos = a.angle_cos(&b);
+
+        assert!((target_angle_cos - angle_cos).abs() <= std::f32::EPSILON);
+    }
+
     #[test]
     fn test_distance() {
         let a = Vector4f::new(1f32, 2f32, 3f32, 4f32);
@@ -368,33 +396,35 @@ mod tests {
         assert_eq!(target_dot, dot);
     }
 
-//    #[test]
-//    fn test_fma() {
-//        let mut a = Vector3f::new(1f32, 1f32, 1f32);
-//        let b = Vector3f::new(2f32, 3f32, 4f32);
-//        let c = Vector3f::new(2f32, 3f32, 4f32);
-//
-//        a.fma(&b, &c);
-//
-//        assert_eq!(a.x, 5f32);
-//        assert_eq!(a.y, 10f32);
-//        assert_eq!(a.z, 17f32);
-//    }
-//
-//    #[test]
-//    fn test_fma_into() {
-//        let a = Vector3f::new(1f32, 1f32, 1f32);
-//        let b = Vector3f::new(2f32, 3f32, 4f32);
-//        let c = Vector3f::new(2f32, 3f32, 4f32);
-//        let mut d = Vector3f::new(0f32, 0f32, 0f32);
-//
-//        a.fma_into(&b, &c, &mut d);
-//
-//        assert_eq!(d.x, 5f32);
-//        assert_eq!(d.y, 10f32);
-//        assert_eq!(d.z, 17f32);
-//    }
-//
+    #[test]
+    fn test_fma() {
+        let mut a = Vector4f::new(1f32, 1f32, 1f32, 1f32);
+        let b = Vector4f::new(2f32, 3f32, 4f32, 5f32);
+        let c = Vector4f::new(2f32, 3f32, 4f32, 5f32);
+
+        a.fma(&b, &c);
+
+        assert_eq!(a.x, 5f32);
+        assert_eq!(a.y, 10f32);
+        assert_eq!(a.z, 17f32);
+        assert_eq!(a.w, 26f32);
+    }
+
+    #[test]
+    fn test_fma_into() {
+        let a = Vector4f::new(1f32, 1f32, 1f32, 1f32);
+        let b = Vector4f::new(2f32, 3f32, 4f32, 5f32);
+        let c = Vector4f::new(2f32, 3f32, 4f32, 5f32);
+        let mut d = Vector4f::new(0f32, 0f32, 0f32, 0f32);
+
+        a.fma_into(&b, &c, &mut d);
+
+        assert_eq!(d.x, 5f32);
+        assert_eq!(d.y, 10f32);
+        assert_eq!(d.z, 17f32);
+        assert_eq!(d.w, 26f32);
+    }
+
     #[test]
     fn test_length() {
         let a = Vector4f::new(1f32, 0f32, 2f32, 2f32);
@@ -415,31 +445,33 @@ mod tests {
         assert_eq!(target_length_sq, length_sq);
     }
 
-//    #[test]
-//    fn test_lerp() {
-//        let mut a = Vector3f::new(1f32, 0f32, 0f32);
-//        let b = Vector3f::new(2f32, 2f32, 3f32);
-//
-//        a.lerp(&b, 0.5f32);
-//
-//        assert_eq!(a.x, 1.5f32);
-//        assert_eq!(a.y, 1.0f32);
-//        assert_eq!(a.z, 1.5f32);
-//    }
-//
-//    #[test]
-//    fn test_lerp_into() {
-//        let a = Vector3f::new(1f32, 0f32, 0f32);
-//        let b = Vector3f::new(2f32, 2f32, 3f32);
-//        let mut c = Vector3f::new(0f32, 0f32, 0f32);
-//
-//        a.lerp_into(&b, 0.5f32, &mut c);
-//
-//        assert_eq!(c.x, 1.5f32);
-//        assert_eq!(c.y, 1.0f32);
-//        assert_eq!(c.z, 1.5f32);
-//    }
-//
+    #[test]
+    fn test_lerp() {
+        let mut a = Vector4f::new(1f32, 0f32, 0f32, 0f32);
+        let b = Vector4f::new(2f32, 2f32, 3f32, 4f32);
+
+        a.lerp(&b, 0.5f32);
+
+        assert_eq!(a.x, 1.5f32);
+        assert_eq!(a.y, 1.0f32);
+        assert_eq!(a.z, 1.5f32);
+        assert_eq!(a.w, 2.0f32);
+    }
+
+    #[test]
+    fn test_lerp_into() {
+        let a = Vector4f::new(1f32, 0f32, 0f32, 0f32);
+        let b = Vector4f::new(2f32, 2f32, 3f32, 4f32);
+        let mut c = Vector4f::new(0f32, 0f32, 0f32, 0f32);
+
+        a.lerp_into(&b, 0.5f32, &mut c);
+
+        assert_eq!(c.x, 1.5f32);
+        assert_eq!(c.y, 1.0f32);
+        assert_eq!(c.z, 1.5f32);
+        assert_eq!(c.w, 2.0f32);
+    }
+
     #[test]
     fn test_mul() {
         let mut a = Vector4f::new(1f32, 2f32, 3f32, 4f32);
