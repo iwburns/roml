@@ -595,4 +595,3 @@ mod tests {
         assert_eq!(a.w, 0f32);
     }
 }
-
