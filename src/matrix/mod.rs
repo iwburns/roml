@@ -9,8 +9,19 @@ pub trait Matrix<T> {
     fn add_into(&self, m: &Self, dest: &mut Self);
     fn sub(&mut self, m: &Self) -> &mut Self;
     fn sub_into(&self, m: &Self, dest: &mut Self);
-    fn get_column(&self, column: Self::ColIndex, dest: &mut Self::ColVector);
-    fn get_row(&self, column: Self::RowIndex, dest: &mut Self::RowVector);
+
+    fn get_column(&self, column: Self::ColIndex) -> Self::ColVector;
+    fn copy_column(&self, column: Self::ColIndex, dest: &mut Self::ColVector);
+    fn set_column(&mut self, column: Self::ColIndex, source: &Self::ColVector);
+
+    fn get_row(&self, row: Self::RowIndex) -> Self::RowVector;
+    fn copy_row(&self, row: Self::RowIndex, dest: &mut Self::RowVector);
+    fn set_row(&mut self, row: Self::RowIndex, source: &Self::RowVector);
+
+    fn get_cell(&self, column: Self::ColIndex, row: Self::RowIndex) -> &T;
+    fn copy_cell(&self, column: Self::ColIndex, row: Self::RowIndex, dest: &mut T);
+    fn set_cell(&mut self, column: Self::ColIndex, row: Self::RowIndex, source: &T);
+
     // todo: add more here
 }
 

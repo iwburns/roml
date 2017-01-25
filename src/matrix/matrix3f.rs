@@ -25,11 +25,39 @@ impl Matrix<f32> for Matrix3f {
         unimplemented!()
     }
 
-    fn get_column(&self, column: Mat3Index, dest: &mut Vector3f) {
+    fn get_column(&self, column: Mat3Index) -> Vector3f {
         unimplemented!()
     }
 
-    fn get_row(&self, column: Mat3Index, dest: &mut Vector3f) {
+    fn copy_column(&self, column: Mat3Index, dest: &mut Vector3f) {
+        unimplemented!()
+    }
+
+    fn set_column(&mut self, column: Mat3Index, source: &Vector3f) {
+        unimplemented!()
+    }
+
+    fn get_row(&self, row: Mat3Index) -> Vector3f {
+        unimplemented!()
+    }
+
+    fn copy_row(&self, row: Mat3Index, dest: &mut Vector3f) {
+        unimplemented!()
+    }
+
+    fn set_row(&mut self, row: Mat3Index, source: &Vector3f) {
+        unimplemented!()
+    }
+
+    fn get_cell(&self, column: Mat3Index, row: Mat3Index) -> &f32 {
+        unimplemented!()
+    }
+
+    fn copy_cell(&self, column: Mat3Index, row: Mat3Index, dest: &mut f32) {
+        unimplemented!()
+    }
+
+    fn set_cell(&mut self, column: Mat3Index, row: Mat3Index, source: &f32) {
         unimplemented!()
     }
 }
